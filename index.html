@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>InvestiPlay — Learn Money Skills That Last</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #06291f;
+    --forest: #0a3d2e;
+    --emerald: #15604a;
+    --emerald-2: #1c8059;
+    --leaf: #2bb673;
+    --up: #14a05b;
+    --down: #e0524a;
+    --gold: #e0a52e;
+    --gold-soft: #fbf1d6;
+    --mint: #e7f0ea;
+    --mint-2: #dcebe0;
+    --paper: #f6fbf7;
+    --white: #ffffff;
+    --dark: #08130e;
+    --dark-2: #102219;
+    --line: rgba(10, 61, 46, 0.12);
+    --shadow-sm: 0 1px 2px rgba(6, 41, 31, 0.06), 0 4px 14px rgba(6, 41, 31, 0.05);
+    --shadow-md: 0 8px 30px rgba(6, 41, 31, 0.10);
+    --shadow-lg: 0 24px 70px rgba(6, 41, 31, 0.18);
+    --r-lg: 28px;
+    --r-md: 20px;
+    --r-sm: 14px;
+    --maxw: 1200px;
+    --accent: var(--emerald);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--mint);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  .mono { font-family: "JetBrains Mono", monospace; font-variant-numeric: tabular-nums; }
+  ::selection { background: var(--leaf); color: #042018; }
+
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+  @media (max-width: 720px) { .wrap { padding: 0 20px; } }
+
+  /* ---------- Wordmark ---------- */
+  .wordmark {
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    font-size: 1.5rem;
+    color: var(--forest);
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+  }
+  .wordmark .play { color: var(--emerald-2); }
+  .wordmark--light { color: #eafff5; }
+  .wordmark--light .play { color: var(--leaf); }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-weight: 700; font-size: 0.98rem;
+    padding: 14px 24px; border-radius: 999px;
+    transition: transform .18s cubic-bezier(.2,.9,.3,1.2), box-shadow .2s, background .2s, color .2s;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: var(--accent); color: #f3fff9;
+    box-shadow: 0 8px 22px rgba(21, 96, 74, 0.32);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(21,96,74,.42); }
+  .btn-ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--line); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+  .btn-dark { background: var(--ink); color: #eafff5; }
+  .btn-dark:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .btn-gold { background: var(--gold); color: #3a2a06; box-shadow: 0 8px 22px rgba(224,165,46,.32); }
+  .btn-gold:hover { transform: translateY(-2px); }
+
+  /* ---------- Section scaffolding ---------- */
+  section { position: relative; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--emerald); padding: 7px 14px; border-radius: 999px;
+    background: rgba(21,96,74,0.08);
+  }
+  .sec-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin: 18px 0 0; }
+  .sec-sub { font-size: 1.1rem; color: rgba(6,41,31,.66); max-width: 56ch; line-height: 1.5; margin: 16px 0 0; }
+
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1 !important; transform: none !important; } }
+  body.no-motion .reveal { opacity: 1 !important; transform: none !important; }
+
+  .pill-tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: .8rem; font-weight: 700; padding: 6px 12px; border-radius: 999px;
+  }
+
+  /* card base */
+  .card { background: var(--white); border-radius: var(--r-md); border: 1px solid var(--line); box-shadow: var(--shadow-sm); }
+
+  /* shared form input (used by demo modal + simulator) */
+  .lab-input { width:100%; padding:13px 15px; border-radius:13px; border:1.5px solid var(--line); background:var(--mint); font-size:1rem; font-weight:600; color:var(--ink); outline:none; transition:border .2s; }
+  .lab-input:focus { border-color:var(--accent); }
+
+  #root { position: relative; z-index: 1; }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 11px; height: 11px; }
+  ::-webkit-scrollbar-thumb { background: rgba(10,61,46,.22); border-radius: 99px; border: 3px solid var(--mint); }
+  ::-webkit-scrollbar-track { background: transparent; }
+
+  /* keyframes */
+  @keyframes tickerScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+  @keyframes floaty2 { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-16px) rotate(-3deg); } }
+  @keyframes spinSlow { to { transform: rotate(360deg); } }
+  @keyframes pulseDot { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(.7); } }
+  @keyframes pop { 0% { transform: scale(.6); opacity: 0; } 60% { transform: scale(1.08); } 100% { transform: scale(1); opacity: 1; } }
+  @keyframes shimmer { to { background-position: 200% 0; } }
+  @keyframes coinFlip { 0% { transform: rotateY(0deg); } 100% { transform: rotateY(360deg); } }
+  @keyframes riseUp { from { transform: translateY(8px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  body.no-motion *,
+  body.no-motion *::before,
+  body.no-motion *::after { animation-duration: 0.001s !important; animation-iteration-count: 1 !important; }
+
+  body.has-cursor, body.has-cursor a, body.has-cursor button, body.has-cursor .feat-card, body.has-cursor [data-cur] { cursor: none !important; }
+  body.has-cursor input, body.has-cursor textarea { cursor: text !important; }
+  @keyframes drawLineG { to { stroke-dashoffset: 0; } }
+
+  .grain::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5; z-index: 0;
+    background-image: radial-gradient(rgba(10,61,46,.05) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+  <!-- ============================ tweaks-panel ============================ -->
+  <script type="text/babel" data-presets="react">
+  // Reusable Tweaks shell + form-control helpers (stays dormant unless hosted).
+  const __TWEAKS_STYLE = `
+    .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
+      max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+      transform:scale(var(--dc-inv-zoom,1));transform-origin:bottom right;
+      background:rgba(250,249,247,.78);color:#29261b;
+      -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+      border:.5px solid rgba(255,255,255,.6);border-radius:14px;
+      box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 40px rgba(0,0,0,.18);
+      font:11.5px/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;overflow:hidden}
+    .twk-hd{display:flex;align-items:center;justify-content:space-between;
+      padding:10px 8px 10px 14px;cursor:move;user-select:none}
+    .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
+    .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
+      width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+    .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+    .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
+      overflow-y:auto;overflow-x:hidden;min-height:0;
+      scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent}
+    .twk-row{display:flex;flex-direction:column;gap:5px}
+    .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+    .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;color:rgba(41,38,27,.72)}
+    .twk-lbl>span:first-child{font-weight:500}
+    .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+      color:rgba(41,38,27,.45);padding:10px 0 0}
+    .twk-sect:first-child{padding-top:0}
+    .twk-toggle{position:relative;width:32px;height:18px;border:0;border-radius:999px;
+      background:rgba(0,0,0,.15);transition:background .15s;cursor:default;padding:0}
+    .twk-toggle[data-on="1"]{background:#34c759}
+    .twk-toggle i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+      background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+    .twk-toggle[data-on="1"] i{transform:translateX(14px)}
+    .twk-chips{display:flex;gap:6px}
+    .twk-chip{position:relative;appearance:none;flex:1;min-width:0;height:46px;
+      padding:0;border:0;border-radius:6px;overflow:hidden;cursor:default;
+      box-shadow:0 0 0 .5px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.06);
+      transition:transform .12s cubic-bezier(.3,.7,.4,1),box-shadow .12s}
+    .twk-chip:hover{transform:translateY(-1px)}
+    .twk-chip[data-on="1"]{box-shadow:0 0 0 1.5px rgba(0,0,0,.85),0 2px 6px rgba(0,0,0,.15)}
+    .twk-chip svg{position:absolute;top:6px;left:6px;width:13px;height:13px;
+      filter:drop-shadow(0 1px 1px rgba(0,0,0,.3))}
+  `;
+  function useTweaks(defaults) {
+    const [values, setValues] = React.useState(defaults);
+    const setTweak = React.useCallback((keyOrEdits, val) => {
+      const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null ? keyOrEdits : { [keyOrEdits]: val };
+      setValues((prev) => ({ ...prev, ...edits }));
+      try { window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*'); } catch (e) {}
+      window.dispatchEvent(new CustomEvent('tweakchange', { detail: edits }));
+    }, []);
+    return [values, setTweak];
+  }
+  function TweaksPanel({ title = 'Tweaks', children }) {
+    const [open, setOpen] = React.useState(false);
+    const dragRef = React.useRef(null);
+    const offsetRef = React.useRef({ x: 16, y: 16 });
+    React.useEffect(() => {
+      const onMsg = (e) => {
+        const t = e && e.data && e.data.type;
+        if (t === '__activate_edit_mode') setOpen(true);
+        else if (t === '__deactivate_edit_mode') setOpen(false);
+      };
+      window.addEventListener('message', onMsg);
+      try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch (e) {}
+      return () => window.removeEventListener('message', onMsg);
+    }, []);
+    const dismiss = () => { setOpen(false); try { window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*'); } catch (e) {} };
+    if (!open) return null;
+    return (
+      <>
+        <style>{__TWEAKS_STYLE}</style>
+        <div ref={dragRef} className="twk-panel" style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+          <div className="twk-hd"><b>{title}</b>
+            <button className="twk-x" aria-label="Close tweaks" onClick={dismiss}>✕</button></div>
+          <div className="twk-body">{children}</div>
+        </div>
+      </>
+    );
+  }
+  function TweakSection({ label, children }) { return (<><div className="twk-sect">{label}</div>{children}</>); }
+  function TweakRow({ label, value, children }) {
+    return (<div className="twk-row"><div className="twk-lbl"><span>{label}</span>{value != null && <span className="twk-val">{value}</span>}</div>{children}</div>);
+  }
+  function TweakToggle({ label, value, onChange }) {
+    return (<div className="twk-row twk-row-h"><div className="twk-lbl"><span>{label}</span></div>
+      <button type="button" className="twk-toggle" data-on={value ? '1' : '0'} role="switch" aria-checked={!!value} onClick={() => onChange(!value)}><i /></button></div>);
+  }
+  function __twkIsLight(hex) {
+    const h = String(hex).replace('#', '');
+    const x = h.length === 3 ? h.replace(/./g, (c) => c + c) : h.padEnd(6, '0');
+    const n = parseInt(x.slice(0, 6), 16);
+    if (Number.isNaN(n)) return true;
+    const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+    return r * 299 + g * 587 + b * 114 > 148000;
+  }
+  const __TwkCheck = ({ light }) => (
+    <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.2 5.8 10 11 4.2" fill="none" strokeWidth="2.2"
+      strokeLinecap="round" strokeLinejoin="round" stroke={light ? 'rgba(0,0,0,.78)' : '#fff'} /></svg>
+  );
+  function TweakColor({ label, value, options, onChange }) {
+    const key = (o) => String(JSON.stringify(o)).toLowerCase();
+    const cur = key(value);
+    return (
+      <TweakRow label={label}>
+        <div className="twk-chips" role="radiogroup">
+          {options.map((o, i) => {
+            const on = key(o) === cur;
+            return (
+              <button key={i} type="button" className="twk-chip" role="radio" aria-checked={on} data-on={on ? '1' : '0'}
+                style={{ background: o }} onClick={() => onChange(o)}>
+                {on && <__TwkCheck light={__twkIsLight(o)} />}
+              </button>
+            );
+          })}
+        </div>
+      </TweakRow>
+    );
+  }
+  Object.assign(window, { useTweaks, TweaksPanel, TweakSection, TweakRow, TweakToggle, TweakColor });
+  </script>
+
+  <!-- ============================ shared ============================ -->
+  <script type="text/babel" data-presets="react">
+  const { useState, useEffect, useRef, useCallback } = React;
+
+  function useReveal() {
+    const ref = useRef(null);
+    useEffect(() => {
+      const el = ref.current;
+      if (!el) return;
+      const io = new IntersectionObserver(
+        (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }),
+        { threshold: 0.18 }
+      );
+      el.querySelectorAll(".reveal").forEach((n) => io.observe(el));
+      el.querySelectorAll(".reveal").forEach((n) => io.observe(n));
+      if (el.classList.contains("reveal")) io.observe(el);
+      return () => io.disconnect();
+    }, []);
+    return ref;
+  }
+
+  function useCountUp(target, { duration = 1600, decimals = 0 } = {}) {
+    const [val, setVal] = useState(0);
+    const ref = useRef(null);
+    const started = useRef(false);
+    useEffect(() => {
+      const el = ref.current;
+      if (!el) return;
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting && !started.current) {
+            started.current = true;
+            const t0 = performance.now();
+            const tick = (now) => {
+              const p = Math.min(1, (now - t0) / duration);
+              const eased = 1 - Math.pow(1 - p, 3);
+              setVal(target * eased);
+              if (p < 1) requestAnimationFrame(tick);
+              else setVal(target);
+            };
+            requestAnimationFrame(tick);
+          }
+        });
+      }, { threshold: 0.4 });
+      io.observe(el);
+      return () => io.disconnect();
+    }, [target, duration]);
+    const display = decimals > 0 ? val.toFixed(decimals) : Math.round(val).toLocaleString();
+    return [display, ref];
+  }
+
+  function sparkPath(points, w, h, pad = 4) {
+    const min = Math.min(...points), max = Math.max(...points);
+    const range = max - min || 1;
+    const step = (w - pad * 2) / (points.length - 1);
+    const pts = points.map((p, i) => [pad + i * step, h - pad - ((p - min) / range) * (h - pad * 2)]);
+    let d = `M ${pts[0][0]},${pts[0][1]}`;
+    for (let i = 1; i < pts.length; i++) {
+      const [x0, y0] = pts[i - 1], [x1, y1] = pts[i];
+      const cx = (x0 + x1) / 2;
+      d += ` C ${cx},${y0} ${cx},${y1} ${x1},${y1}`;
+    }
+    return { d, pts, area: d + ` L ${pts[pts.length-1][0]},${h} L ${pts[0][0]},${h} Z` };
+  }
+
+  function randomWalk(n, start, vol) {
+    const out = [start];
+    for (let i = 1; i < n; i++) {
+      out.push(Math.max(1, out[i - 1] + (Math.random() - 0.48) * vol));
+    }
+    return out;
+  }
+
+  const Icon = ({ name, size = 22, stroke = 1.8, color = "currentColor" }) => {
+    const common = { width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: color, strokeWidth: stroke, strokeLinecap: "round", strokeLinejoin: "round" };
+    const paths = {
+      book: <><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 5.5V20.5"/><path d="M9 8h7M9 12h5"/></>,
+      flask: <><path d="M9 3h6"/><path d="M10 3v6.5L5 18a2 2 0 0 0 1.8 3h10.4A2 2 0 0 0 19 18l-5-8.5V3"/><path d="M7.5 14h9"/></>,
+      chart: <><path d="M4 19V5"/><path d="M4 19h16"/><path d="M7 15l3.5-4 3 2.5L20 7"/></>,
+      trophy: <><path d="M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3"/><path d="M10 14h4M9 20h6M12 14v6"/></>,
+      coin: <><circle cx="12" cy="12" r="8"/><path d="M12 8v8M9.5 9.5h3.5a1.5 1.5 0 0 1 0 3H10a1.5 1.5 0 0 0 0 3h3.5"/></>,
+      spark: <><path d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6z"/></>,
+      target: <><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.6" fill={color}/></>,
+      shield: <><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></>,
+      bolt: <><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></>,
+      rocket: <><path d="M5 15c-1.5 1-2 4-2 4s3-.5 4-2"/><path d="M9 13l2 2"/><path d="M14.5 4.5c3 0 5 2 5 5L13 16l-5-5z"/><circle cx="15" cy="9" r="1.4"/></>,
+      grid: <><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></>,
+      play: <><circle cx="12" cy="12" r="9"/><path d="M10 8.5l5 3.5-5 3.5z" fill={color} stroke="none"/></>,
+      arrow: <><path d="M5 12h14M13 6l6 6-6 6"/></>,
+      check: <><path d="M5 12l4 4L19 7"/></>,
+      store: <><path d="M4 9l1.5-5h13L20 9"/><path d="M4 9v10h16V9"/><path d="M4 9a2.5 2.5 0 0 0 5 0 2.5 2.5 0 0 0 5 0 2.5 2.5 0 0 0 5 0"/><path d="M9 19v-5h6v5"/></>,
+      users: <><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 5.5a3 3 0 0 1 0 5.8M21 20c0-2.5-1.4-4.7-3.5-5.6"/></>,
+      lock: <><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></>,
+      cap: <><path d="M12 4L2 9l10 5 10-5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></>,
+      doc: <><path d="M7 3h6l5 5v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M13 3v5h5"/><path d="M9 13h6M9 17h4"/></>,
+    };
+    return <svg {...common}>{paths[name] || null}</svg>;
+  };
+
+  const fmt = (n, d = 2) => Number(n).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
+
+  Object.assign(window, { useReveal, useCountUp, sparkPath, randomWalk, Icon, fmt });
+  </script>
+
+  <!-- ============================ sections-a (Nav, Stats) ============================ -->
+  <script type="text/babel" data-presets="react">
+  const { useState: useStateA, useEffect: useEffectA, useRef: useRefA } = React;
+
+  function Nav({ onDemo }) {
+    const [scrolled, setScrolled] = useStateA(false);
+    useEffectA(() => {
+      const onScroll = () => setScrolled(window.scrollY > 24);
+      window.addEventListener("scroll", onScroll);
+      return () => window.removeEventListener("scroll", onScroll);
+    }, []);
+    const links = [["How it works", "#how"], ["Simulation", "#sim"], ["Curriculum", "#curriculum"]];
+    const linkBase = scrolled ? "rgba(6,41,31,.6)" : "rgba(234,255,245,.66)";
+    const linkLit = scrolled ? "var(--accent)" : "#eafff5";
+    const litBg = scrolled ? "rgba(21,96,74,.10)" : "rgba(255,255,255,.12)";
+    return (
+      <nav style={{
+        position: "sticky", top: 0, zIndex: 50, transition: "all .3s",
+        background: scrolled ? "rgba(231,240,234,.82)" : "rgba(231,240,234,0)",
+        backdropFilter: scrolled ? "blur(14px)" : "none",
+        borderBottom: scrolled ? "1px solid var(--line)" : "1px solid transparent",
+      }}>
+        <div className="wrap" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
+          <a href="#top" className={`wordmark ${scrolled ? "" : "wordmark--light"}`} style={{ fontSize: "1.45rem", transition: "color .3s" }}>Investi<span className="play">Play</span></a>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }} className="nav-links">
+            {links.map(([t, h]) => (
+              <a key={t} href={h} style={{ fontWeight: 600, fontSize: ".95rem", color: linkBase, padding: "8px 14px", borderRadius: 999, whiteSpace: "nowrap", transition: "color .2s, background .2s" }}
+                 onMouseEnter={(e) => { e.currentTarget.style.color = linkLit; e.currentTarget.style.background = litBg; }}
+                 onMouseLeave={(e) => { e.currentTarget.style.color = linkBase; e.currentTarget.style.background = "transparent"; }}>{t}</a>
+            ))}
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <a href="#" className="nav-login" style={{ fontWeight: 700, fontSize: ".95rem", whiteSpace: "nowrap", color: scrolled ? "var(--ink)" : "#eafff5", transition: "color .3s" }}>Log in</a>
+            <button className="btn btn-primary" style={{ padding: "11px 20px", fontSize: ".92rem" }} onClick={onDemo}>Request a Demo</button>
+          </div>
+        </div>
+        <style>{`
+          @media (max-width: 900px){ .nav-links{ display:none !important; } }
+          @media (max-width: 560px){ .nav-login{ display:none !important; } }
+        `}</style>
+      </nav>
+    );
+  }
+
+  function Stats() {
+    const ref = useReveal();
+    const items = [
+      { n: 50, suf: "", label: "U.S. states whose standards we map to", icon: "shield" },
+      { n: 18000, suf: "+", label: "students learning by doing", icon: "users" },
+      { n: 94, suf: "%", label: "pass their financial-literacy requirement", icon: "cap" },
+      { n: 4.8, suf: "★", label: "average student rating", icon: "spark", dec: 1 },
+    ];
+    return (
+      <section ref={ref} style={{ padding: "30px 0 20px" }}>
+        <div className="wrap">
+          <div className="reveal" style={{ background: "var(--dark)", borderRadius: 30, padding: "44px 40px", position: "relative", overflow: "hidden" }}>
+            <div style={{ position: "absolute", inset: 0, background: "radial-gradient(900px 300px at 80% -20%, rgba(43,182,115,.18), transparent)" }} />
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 24, position: "relative" }} className="stats-grid">
+              {items.map((it, i) => <StatCell key={i} {...it} />)}
+            </div>
+          </div>
+        </div>
+        <style>{`@media (max-width:760px){ .stats-grid{ grid-template-columns:1fr 1fr !important; } }`}</style>
+      </section>
+    );
+  }
+  function StatCell({ n, suf, label, icon, dec = 0 }) {
+    const [val, ref] = useCountUp(n, { decimals: dec });
+    return (
+      <div ref={ref}>
+        <div style={{ display: "inline-flex", padding: 9, borderRadius: 12, background: "rgba(43,182,115,.14)", marginBottom: 12 }}>
+          <Icon name={icon} size={20} color="#4fd99b" />
+        </div>
+        <div className="mono" style={{ fontSize: "2.6rem", fontWeight: 700, color: "#eafff5", letterSpacing: "-.03em", lineHeight: 1 }}>
+          {val}<span style={{ color: "#4fd99b" }}>{suf}</span>
+        </div>
+        <div style={{ color: "#9cc4b3", fontSize: ".92rem", marginTop: 8, lineHeight: 1.35, maxWidth: "22ch" }}>{label}</div>
+      </div>
+    );
+  }
+
+  Object.assign(window, { Nav, Stats });
+  </script>
+
+  <!-- ============================ sections-b (HowItWorks, StockSim w/ Yahoo) ============================ -->
+  <script type="text/babel" data-presets="react">
+  const { useState: useStateB, useEffect: useEffectB, useRef: useRefB } = React;
+
+  function HowItWorks() {
+    const ref = useReveal();
+    const feats = [
+      { icon: "book", c: "#1c8059", title: "Missions", desc: "Bite-size interactive lessons on budgeting, credit, taxes & investing — mapped to your state standards.", tag: "Learn" },
+      { icon: "chart", c: "#14a05b", title: "Live Stock Sim", desc: "Trade real tickers with virtual cash. Watch the market move and feel the consequences — risk-free.", tag: "Apply" },
+      { icon: "store", c: "#1c8059", title: "Build a Business", desc: "Launch a virtual company, price products, manage cash flow, and grow your valuation.", tag: "Run" },
+      { icon: "trophy", c: "#e0a52e", title: "Leaderboard", desc: "Compete with your class. Streaks, levels, and coins turn money skills into a game worth winning.", tag: "Compete" },
+      { icon: "shield", c: "#14a05b", title: "Teacher Dashboard", desc: "Auto-graded progress, standards coverage, and zero prep. Assign a unit and watch mastery climb.", tag: "Track" },
+      { icon: "cap", c: "#caa12e", title: "Standards-aligned", desc: "Every Mission maps to your state's personal-finance graduation requirement — coverage built in.", tag: "Certify" },
+    ];
+    return (
+      <section id="how" ref={ref} style={{ padding: "90px 0 40px" }}>
+        <div className="wrap">
+          <div className="reveal" style={{ textAlign: "center", maxWidth: 720, margin: "0 auto 50px" }}>
+            <span className="eyebrow"><Icon name="grid" size={14} color="var(--emerald)" /> One ecosystem, four ways to learn</span>
+            <h2 className="sec-title">Textbooks tell. <span style={{ color: "var(--emerald-2)" }}>InvestiPlay lets them do.</span></h2>
+            <p className="sec-sub" style={{ margin: "16px auto 0" }}>Every concept students learn in a Mission, they immediately apply in a living economy — trading, building, and competing with their classmates.</p>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20 }} className="feat-grid">
+            {feats.map((f, i) => (
+              <div key={i} className="reveal feat-card card" style={{ padding: 28, transition: "transform .25s, box-shadow .25s", transitionDelay: `${i * 60}ms` }}
+                   onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-6px)"; e.currentTarget.style.boxShadow = "var(--shadow-md)"; }}
+                   onMouseLeave={(e) => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "var(--shadow-sm)"; }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
+                  <div style={{ display: "inline-flex", padding: 12, borderRadius: 14, background: `${f.c}1a` }}>
+                    <Icon name={f.icon} size={24} color={f.c} />
+                  </div>
+                  <span className="pill-tag" style={{ background: "var(--mint)", color: "var(--emerald)", fontSize: ".72rem", letterSpacing: ".06em", textTransform: "uppercase" }}>{f.tag}</span>
+                </div>
+                <h3 style={{ fontSize: "1.3rem", fontWeight: 800, margin: "0 0 8px", letterSpacing: "-.02em" }}>{f.title}</h3>
+                <p style={{ color: "rgba(6,41,31,.66)", lineHeight: 1.5, margin: 0, fontSize: ".98rem" }}>{f.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* gated-progression banner: lessons unlock everything else */}
+          <div className="reveal lock-banner" style={{ marginTop: 22, background: "var(--dark)", borderRadius: 26, padding: "30px 34px", display: "flex", alignItems: "center", gap: 30, flexWrap: "wrap", justifyContent: "space-between", position: "relative", overflow: "hidden" }}>
+            <div style={{ position: "absolute", inset: 0, background: "radial-gradient(620px 240px at 10% -20%, rgba(43,182,115,.16), transparent)" }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 20, position: "relative", maxWidth: "54ch" }}>
+              <div style={{ flexShrink: 0, width: 60, height: 60, borderRadius: 16, background: "rgba(43,182,115,.14)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Icon name="lock" size={26} color="#4fd99b" />
+              </div>
+              <div>
+                <div className="mono" style={{ color: "#4fd99b", fontSize: ".74rem", fontWeight: 700, letterSpacing: ".16em", textTransform: "uppercase", marginBottom: 8 }}>Learn first, then play</div>
+                <h3 style={{ color: "#eafff5", fontSize: "1.38rem", fontWeight: 800, letterSpacing: "-.02em", margin: 0, lineHeight: 1.25 }}>You can&rsquo;t trade, build, or compete until the lesson&rsquo;s done.</h3>
+                <p style={{ color: "#9cc4b3", fontSize: ".98rem", lineHeight: 1.5, margin: "8px 0 0" }}>The market and Build-a-Business stay locked until students complete the matching financial-literacy Mission. Mastery is the only key that opens the fun.</p>
+              </div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, position: "relative", flexWrap: "wrap" }}>
+              <div className="pill-tag" style={{ background: "rgba(20,160,91,.16)", color: "#4fd99b", fontSize: ".82rem", padding: "10px 14px" }}><Icon name="check" size={15} /> Lesson complete</div>
+              <Icon name="arrow" size={18} color="#5e8775" />
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                {[["chart", "Trade"], ["store", "Build"], ["trophy", "Compete"]].map(([ic, l]) => (
+                  <div key={l} className="pill-tag" style={{ background: "rgba(255,255,255,.06)", color: "#cfeede", fontSize: ".82rem", padding: "10px 14px" }}><Icon name={ic} size={15} color="#e0a52e" /> {l}</div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+        <style>{`@media (max-width:900px){ .feat-grid{ grid-template-columns:1fr 1fr !important; } } @media (max-width:600px){ .feat-grid{ grid-template-columns:1fr !important; } } @media (max-width:760px){ .lock-banner{ flex-direction:column; align-items:flex-start !important; } }`}</style>
+      </section>
+    );
+  }
+
+  /* ============== LIVE STOCK SIM — real Yahoo Finance data + adjustable trades ============== */
+  const QUICK = ["AAPL", "TSLA", "NVDA", "SPY"];
+
+  // Yahoo's chart API doesn't send CORS headers, so we route the request through a
+  // public CORS proxy (with a fallback) and degrade gracefully to a simulated feed.
+  async function fetchYahoo(symbol) {
+    const target = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=1d&interval=5m`;
+    const proxies = [
+      (u) => `https://corsproxy.io/?url=${encodeURIComponent(u)}`,
+      (u) => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+    ];
+    for (const wrap of proxies) {
+      try {
+        const res = await fetch(wrap(target), { cache: "no-store" });
+        if (!res.ok) continue;
+        const data = await res.json();
+        const r = data && data.chart && data.chart.result && data.chart.result[0];
+        if (!r) continue;
+        const meta = r.meta || {};
+        const q = r.indicators && r.indicators.quote && r.indicators.quote[0];
+        const closes = ((q && q.close) || []).filter((v) => v != null);
+        const price = meta.regularMarketPrice != null ? meta.regularMarketPrice : closes[closes.length - 1];
+        const prev = meta.chartPreviousClose != null ? meta.chartPreviousClose
+                    : (meta.previousClose != null ? meta.previousClose : closes[0]);
+        if (price == null || !closes.length) continue;
+        return {
+          symbol: (meta.symbol || symbol).toUpperCase(),
+          name: meta.longName || meta.shortName || (meta.symbol || symbol).toUpperCase(),
+          currency: meta.currency || "USD",
+          price, prev,
+          series: closes.slice(-64),
+        };
+      } catch (e) { /* try next proxy */ }
+    }
+    return null;
+  }
+
+  function StockSim() {
+    const ref = useReveal();
+    const [sym, setSym] = useStateB("AAPL");
+    const [field, setField] = useStateB("");
+    const [quote, setQuote] = useStateB(null);
+    const [live, setLive] = useStateB(true);       // true = real Yahoo data, false = simulated fallback
+    const [loading, setLoading] = useStateB(true);
+    const [series, setSeries] = useStateB(() => randomWalk(40, 180, 5));
+    const [cash, setCash] = useStateB(10000);
+    const [shares, setShares] = useStateB(0);
+    const [avg, setAvg] = useStateB(0);
+    const [qty, setQty] = useStateB(1);
+    const [toast, setToast] = useStateB(null);
+
+    // reset the paper position when switching tickers
+    useEffectB(() => { setShares(0); setAvg(0); setQty(1); }, [sym]);
+
+    // fetch real data on symbol change, then poll for fresh prices
+    useEffectB(() => {
+      let alive = true;
+      setLoading(true);
+      const run = async () => {
+        const data = await fetchYahoo(sym);
+        if (!alive) return;
+        if (data) {
+          setQuote(data);
+          setSeries(data.series.length > 1 ? data.series : randomWalk(40, data.price, Math.max(1, data.price * 0.01)));
+          setLive(true);
+        } else {
+          setQuote(null);
+          setLive(false);
+          setSeries((s) => (s.length > 1 ? s : randomWalk(40, 180, 5)));
+        }
+        setLoading(false);
+      };
+      run();
+      const id = setInterval(run, 20000);
+      return () => { alive = false; clearInterval(id); };
+    }, [sym]);
+
+    // when real data is unavailable, drift the simulated series so the chart still lives
+    useEffectB(() => {
+      if (live) return;
+      const id = setInterval(() => {
+        setSeries((s) => [...s.slice(1), Math.max(5, s[s.length - 1] + (Math.random() - 0.5) * 5)]);
+      }, 1300);
+      return () => clearInterval(id);
+    }, [live]);
+
+    const price = quote ? quote.price : series[series.length - 1];
+    const prev = quote ? quote.prev : series[0];
+    const name = quote ? quote.name : sym;
+    const ticker = quote ? quote.symbol : sym;
+    const dayChg = prev ? ((price - prev) / prev) * 100 : 0;
+
+    const showToast = (msg, kind) => { setToast({ msg, kind }); setTimeout(() => setToast(null), 2600); };
+    const maxBuy = Math.max(0, Math.floor(cash / price));
+    const buy = () => {
+      const n = Math.max(1, qty);
+      const cost = n * price;
+      if (cash < cost) return showToast("Not enough cash — that's a real lesson too.", "warn");
+      const ns = shares + n;
+      setAvg((shares * avg + cost) / ns);
+      setShares(ns);
+      setCash((c) => c - cost);
+      showToast(`Bought ${n} ${n > 1 ? "shares" : "share"} of ${ticker} 📈`, "good");
+    };
+    const sell = () => {
+      const n = Math.max(1, qty);
+      if (shares < n) return showToast(shares === 0 ? "No shares to sell yet — buy first!" : `You only own ${shares}.`, "warn");
+      setShares((sh) => sh - n);
+      setCash((c) => c + n * price);
+      const gain = (price - avg) * n;
+      showToast(gain >= 0 ? `Sold ${n} for a $${fmt(gain)} gain 🎉` : `Sold ${n} at a $${fmt(Math.abs(gain))} loss — note why.`, gain >= 0 ? "good" : "warn");
+    };
+
+    const submitSym = (e) => {
+      e.preventDefault();
+      const v = field.trim().toUpperCase();
+      if (v && v !== sym) setSym(v);
+      setField("");
+    };
+
+    const { d, area } = sparkPath(series, 560, 220, 8);
+    const holdingsVal = shares * price;
+    const total = cash + holdingsVal;
+    const pl = shares > 0 ? (price - avg) * shares : 0;
+
+    const StepBtn = ({ label, onClick, disabled }) => (
+      <button onClick={onClick} disabled={disabled} className="mono" style={{ width: 38, height: 38, borderRadius: 11, fontSize: "1.1rem", fontWeight: 700,
+        background: "rgba(255,255,255,.06)", color: disabled ? "#3d5a4c" : "#eafff5", cursor: disabled ? "not-allowed" : "pointer" }}>{label}</button>
+    );
+
+    return (
+      <section id="sim" ref={ref} style={{ padding: "70px 0" }}>
+        <div className="wrap">
+          <div className="reveal sim-head" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "center", marginBottom: 36 }}>
+            <div>
+              <span className="eyebrow"><Icon name="chart" size={14} color="var(--emerald)" /> Try it live · real market data</span>
+              <h2 className="sec-title">Trade a real market.<br /><span style={{ color: "var(--emerald-2)" }}>Risk exactly $0.</span></h2>
+            </div>
+            <p className="sec-sub">This is the actual simulator students use, wired to <strong style={{ color: "var(--ink)" }}>live Yahoo Finance prices</strong>. Pick or type any ticker, set how many shares to trade, and place an order. Every buy and sell teaches risk, timing, and discipline — with virtual cash.</p>
+          </div>
+
+          <div className="reveal" style={{ background: "var(--dark)", borderRadius: 30, padding: 24, position: "relative", overflow: "hidden" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr", gap: 22 }} className="sim-grid">
+              {/* chart side */}
+              <div>
+                <div style={{ display: "flex", gap: 8, marginBottom: 14, flexWrap: "wrap", alignItems: "center" }}>
+                  {QUICK.map((k) => (
+                    <button key={k} onClick={() => setSym(k)} className="mono"
+                      style={{ padding: "8px 14px", borderRadius: 11, fontWeight: 700, fontSize: ".82rem", transition: "all .2s",
+                        background: sym === k ? "var(--leaf)" : "rgba(255,255,255,.06)",
+                        color: sym === k ? "#042018" : "#bfe0d0" }}>{k}</button>
+                  ))}
+                  <form onSubmit={submitSym} style={{ display: "flex", gap: 6, marginLeft: "auto" }}>
+                    <input value={field} onChange={(e) => setField(e.target.value)} placeholder="Symbol…" maxLength={8} className="mono"
+                      style={{ width: 96, padding: "8px 12px", borderRadius: 11, border: "1px solid rgba(255,255,255,.12)", background: "rgba(255,255,255,.04)", color: "#eafff5", fontSize: ".82rem", fontWeight: 700, outline: "none", textTransform: "uppercase" }} />
+                    <button type="submit" className="mono" style={{ padding: "8px 12px", borderRadius: 11, fontWeight: 700, fontSize: ".82rem", background: "rgba(255,255,255,.1)", color: "#eafff5" }}>Load</button>
+                  </form>
+                </div>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 14, marginBottom: 4, flexWrap: "wrap" }}>
+                  <span style={{ color: "#eafff5", fontWeight: 800, fontSize: "1.05rem" }}>{name}</span>
+                  <span className="mono" style={{ color: "#7fae9a", fontSize: ".8rem" }}>{ticker}</span>
+                  <span style={{ color: "#7fae9a", fontSize: ".8rem", display: "inline-flex", alignItems: "center", gap: 6 }}>
+                    <span style={{ width: 7, height: 7, borderRadius: 99, background: live ? "#4fd99b" : "#e0a52e", display: "inline-block", animation: "pulseDot 1.4s infinite" }} /> {loading ? "LOADING" : live ? "LIVE" : "SIM"}
+                  </span>
+                </div>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 8 }}>
+                  <span className="mono" style={{ color: "#eafff5", fontSize: "2.4rem", fontWeight: 700, letterSpacing: "-.02em" }}>${fmt(price)}</span>
+                  <span className="mono" style={{ color: dayChg >= 0 ? "#4fd99b" : "#ff8a80", fontWeight: 700 }}>{dayChg >= 0 ? "▲" : "▼"} {Math.abs(dayChg).toFixed(2)}%</span>
+                </div>
+                <svg viewBox="0 0 560 220" style={{ width: "100%", height: 200, display: "block" }}>
+                  <defs>
+                    <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor={dayChg >= 0 ? "#2bb673" : "#e0524a"} stopOpacity="0.32" />
+                      <stop offset="100%" stopColor={dayChg >= 0 ? "#2bb673" : "#e0524a"} stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+                  {[0.25, 0.5, 0.75].map((g) => <line key={g} x1="8" x2="552" y1={220 * g} y2={220 * g} stroke="rgba(255,255,255,.06)" strokeWidth="1" />)}
+                  <path d={area} fill="url(#sg)" />
+                  <path d={d} fill="none" stroke={dayChg >= 0 ? "#3fe08f" : "#ff8a80"} strokeWidth="2.6" strokeLinecap="round" style={{ transition: "all .5s" }} />
+                </svg>
+              </div>
+
+              {/* trade panel */}
+              <div style={{ background: "var(--dark-2)", borderRadius: 20, padding: 20, display: "flex", flexDirection: "column" }}>
+                <div style={{ fontSize: ".74rem", color: "#7fae9a", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase" }}>Your paper account</div>
+                <div className="mono" style={{ color: "#eafff5", fontSize: "2rem", fontWeight: 700, margin: "6px 0 2px" }}>${fmt(total)}</div>
+                <div className="mono" style={{ color: pl >= 0 ? "#4fd99b" : "#ff8a80", fontSize: ".85rem", marginBottom: 16 }}>
+                  {shares > 0 ? `${pl >= 0 ? "+" : "−"}$${fmt(Math.abs(pl))} unrealized` : "Cash only — make your first trade"}
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 16 }}>
+                  {[["Cash", `$${fmt(cash)}`], ["Shares", shares.toString()], ["Avg cost", shares > 0 ? `$${fmt(avg)}` : "—"], ["Holdings", `$${fmt(holdingsVal)}`]].map(([k, v]) => (
+                    <div key={k} style={{ background: "rgba(255,255,255,.04)", borderRadius: 12, padding: "10px 12px" }}>
+                      <div style={{ color: "#7fae9a", fontSize: ".68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".05em" }}>{k}</div>
+                      <div className="mono" style={{ color: "#eafff5", fontWeight: 700, marginTop: 2, fontSize: ".95rem" }}>{v}</div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* adjustable quantity */}
+                <div style={{ marginBottom: 14 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 8 }}>
+                    <span style={{ color: "#7fae9a", fontSize: ".68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".05em" }}>Shares to trade</span>
+                    <button onClick={() => setQty(Math.max(1, maxBuy))} className="mono" style={{ color: "#4fd99b", fontSize: ".72rem", fontWeight: 700 }}>MAX {maxBuy}</button>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <StepBtn label="−" onClick={() => setQty((q) => Math.max(1, q - 1))} disabled={qty <= 1} />
+                    <input type="number" min="1" value={qty} onChange={(e) => setQty(Math.max(1, parseInt(e.target.value || "1", 10) || 1))} className="mono"
+                      style={{ flex: 1, minWidth: 0, textAlign: "center", height: 38, borderRadius: 11, border: "1px solid rgba(255,255,255,.12)", background: "rgba(255,255,255,.04)", color: "#eafff5", fontSize: "1rem", fontWeight: 700, outline: "none" }} />
+                    <StepBtn label="+" onClick={() => setQty((q) => q + 1)} />
+                  </div>
+                  <div className="mono" style={{ color: "#7fae9a", fontSize: ".74rem", marginTop: 8 }}>Est. order ≈ ${fmt(qty * price)}</div>
+                </div>
+
+                <div style={{ display: "flex", gap: 10, marginTop: "auto" }}>
+                  <button onClick={buy} className="btn" style={{ flex: 1, justifyContent: "center", background: "var(--leaf)", color: "#042018", padding: "14px" }}>Buy</button>
+                  <button onClick={sell} className="btn" style={{ flex: 1, justifyContent: "center", background: "rgba(255,255,255,.08)", color: "#eafff5", padding: "14px" }}>Sell</button>
+                </div>
+              </div>
+            </div>
+            {/* toast */}
+            {toast && (
+              <div style={{ position: "absolute", bottom: 18, left: "50%", transform: "translateX(-50%)", zIndex: 5, animation: "riseUp .3s ease",
+                background: toast.kind === "good" ? "var(--leaf)" : "#f0c14b", color: "#042018", fontWeight: 700, fontSize: ".9rem",
+                padding: "11px 20px", borderRadius: 999, boxShadow: "var(--shadow-lg)" }}>{toast.msg}</div>
+            )}
+          </div>
+          <p style={{ textAlign: "center", color: "rgba(6,41,31,.5)", fontSize: ".86rem", marginTop: 16 }}>
+            {live ? "Live intraday prices via Yahoo Finance, refreshed automatically. Trades use virtual cash." : "Live feed unavailable right now — showing a simulated market. Trades use virtual cash."}
+          </p>
+        </div>
+        <style>{`@media (max-width:860px){ .sim-grid{ grid-template-columns:1fr !important; } .sim-head{ grid-template-columns:1fr !important; gap:16px !important; } }`}</style>
+      </section>
+    );
+  }
+
+  Object.assign(window, { HowItWorks, StockSim });
+  </script>
+
+  <!-- ============================ sections-c (Curriculum, FinalCTA, DemoModal, Footer) ============================ -->
+  <script type="text/babel" data-presets="react">
+  const { useState: useStateC, useEffect: useEffectC } = React;
+
+  const UNITS = [
+    { n: "01", title: "Money Mindset", std: "PFL.1 · Earning & Income", lessons: 6, icon: "spark", done: true },
+    { n: "02", title: "Budgeting & Banking", std: "PFL.2 · Spending & Saving", lessons: 8, icon: "shield", done: true },
+    { n: "03", title: "Credit & Debt", std: "PFL.3 · Credit & Borrowing", lessons: 7, icon: "lock", done: false, active: true },
+    { n: "04", title: "Investing Basics", std: "PFL.4 · Saving & Investing", lessons: 9, icon: "chart", done: false },
+    { n: "05", title: "Markets & Risk", std: "PFL.5 · Risk Management", lessons: 7, icon: "target", done: false },
+    { n: "06", title: "Build & Launch", std: "Capstone · Entrepreneurship", lessons: 5, icon: "rocket", done: false },
+  ];
+  function Curriculum() {
+    const ref = useReveal();
+    const [active, setActive] = useStateC(2);
+    const u = UNITS[active];
+    return (
+      <section id="curriculum" ref={ref} style={{ padding: "70px 0" }}>
+        <div className="wrap">
+          <div className="reveal cur-head" style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 30, alignItems: "end", marginBottom: 44 }}>
+            <div>
+              <span className="eyebrow"><Icon name="cap" size={14} color="var(--emerald)" /> The curriculum</span>
+              <h2 className="sec-title">A full-year path<br /><span style={{ color: "var(--emerald-2)" }}>that meets the requirement.</span></h2>
+            </div>
+            <p className="sec-sub" style={{ margin: 0 }}>Six units, 42 standards-aligned lessons. Map directly to your state's personal-finance graduation requirement — and students unlock each one by proving mastery in the app.</p>
+          </div>
+
+          <div className="reveal" style={{ position: "relative", marginBottom: 32 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(6,1fr)", gap: 14, position: "relative" }} className="path-grid">
+              <div className="path-line" style={{ position: "absolute", top: 33, left: "8%", right: "8%", height: 3, background: "var(--mint-2)", zIndex: 0 }}>
+                <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: `${(active / (UNITS.length - 1)) * 100}%`, background: "var(--leaf)", transition: "width .4s", borderRadius: 9 }} />
+              </div>
+              {UNITS.map((unit, i) => {
+                const state = unit.done ? "done" : i === active ? "active" : "locked";
+                return (
+                  <button key={i} onClick={() => setActive(i)} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, position: "relative", zIndex: 1 }}>
+                    <div style={{ width: 68, height: 68, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", transition: "all .25s",
+                      background: state === "locked" ? "var(--white)" : state === "done" ? "var(--emerald)" : "var(--gold)",
+                      border: i === active ? "3px solid var(--ink)" : "3px solid transparent",
+                      boxShadow: i === active ? "var(--shadow-md)" : "var(--shadow-sm)",
+                      transform: i === active ? "scale(1.08)" : "scale(1)" }}>
+                      {state === "done" ? <Icon name="check" size={26} color="#eafff5" />
+                        : state === "locked" ? <Icon name="lock" size={22} color="rgba(6,41,31,.32)" />
+                        : <Icon name={unit.icon} size={26} color="#3a2a06" />}
+                    </div>
+                    <span className="mono" style={{ fontSize: ".72rem", fontWeight: 700, color: i === active ? "var(--ink)" : "rgba(6,41,31,.45)" }}>{unit.n}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="reveal card cur-detail" style={{ padding: 28, borderRadius: 24, display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 26, alignItems: "center" }}>
+            <div style={{ width: 70, height: 70, borderRadius: 18, background: u.active ? "var(--gold-soft)" : "var(--mint)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Icon name={u.icon} size={32} color={u.active ? "var(--gold)" : "var(--emerald)"} />
+            </div>
+            <div>
+              <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 6, flexWrap: "wrap" }}>
+                <span style={{ fontWeight: 800, fontSize: "1.4rem", letterSpacing: "-.02em" }}>Unit {u.n} · {u.title}</span>
+                {u.done && <span className="pill-tag" style={{ background: "rgba(20,160,91,.13)", color: "var(--up)", fontSize: ".74rem" }}><Icon name="check" size={13} /> Completed</span>}
+                {u.active && <span className="pill-tag" style={{ background: "var(--gold-soft)", color: "#7a5a08", fontSize: ".74rem" }}>In progress</span>}
+              </div>
+              <div style={{ color: "rgba(6,41,31,.6)", fontSize: ".98rem" }}>{u.std} · <strong style={{ color: "var(--ink)" }}>{u.lessons} interactive lessons</strong></div>
+            </div>
+            <a href="#" className="btn btn-ghost" style={{ padding: "12px 20px" }}>Preview unit <Icon name="arrow" size={17} /></a>
+          </div>
+        </div>
+        <style>{`
+          @media (max-width:820px){ .cur-head{ grid-template-columns:1fr !important; } }
+          @media (max-width:640px){ .path-grid{ grid-template-columns:repeat(3,1fr) !important; row-gap:24px; } .path-line{ display:none; } .cur-detail{ grid-template-columns:1fr !important; text-align:left; } }
+        `}</style>
+      </section>
+    );
+  }
+
+  function FinalCTA({ onDemo }) {
+    const ref = useReveal();
+    return (
+      <section ref={ref} style={{ padding: "40px 0 80px" }}>
+        <div className="wrap">
+          <div className="reveal" style={{ background: "linear-gradient(135deg,#0a3d2e,#06291f)", borderRadius: 34, padding: "64px 48px", textAlign: "center", position: "relative", overflow: "hidden" }}>
+            <div style={{ position: "absolute", inset: 0, background: "radial-gradient(700px 300px at 20% 0%, rgba(43,182,115,.22), transparent), radial-gradient(600px 300px at 90% 110%, rgba(224,165,46,.16), transparent)" }} />
+            <div style={{ position: "relative" }}>
+              <span className="pill-tag" style={{ background: "rgba(255,255,255,.1)", color: "#bfe0d0", fontSize: ".82rem", marginBottom: 22 }}>
+                <span style={{ width: 7, height: 7, borderRadius: 99, background: "#4fd99b", display: "inline-block", animation: "pulseDot 1.4s infinite" }} /> Now enrolling Fall 2026 classrooms
+              </span>
+              <h2 style={{ color: "#eafff5", fontSize: "clamp(2.2rem,5vw,3.6rem)", fontWeight: 800, letterSpacing: "-.03em", lineHeight: 1.04, margin: "0 auto 18px", maxWidth: "16ch" }}>
+                See how a class learns money by <span style={{ color: "#4fd99b" }}>playing</span>.
+              </h2>
+              <p style={{ color: "#9cc4b3", fontSize: "1.15rem", maxWidth: "44ch", margin: "0 auto 34px", lineHeight: 1.5 }}>
+                Book a 20-minute walkthrough. We'll map InvestiPlay to your state standards and set up a free pilot for your students.
+              </p>
+              <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
+                <button className="btn btn-gold" style={{ padding: "16px 32px", fontSize: "1.08rem" }} onClick={onDemo}>Request a Demo <Icon name="arrow" size={19} /></button>
+                <a href="#how" className="btn" style={{ padding: "16px 28px", fontSize: "1.08rem", background: "rgba(255,255,255,.1)", color: "#eafff5" }}>Explore features</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  function DemoModal({ open, onClose }) {
+    const [sent, setSent] = useStateC(false);
+    const [role, setRole] = useStateC("Teacher");
+    useEffectC(() => {
+      if (!open) { setTimeout(() => setSent(false), 300); }
+      const onKey = (e) => { if (e.key === "Escape") onClose(); };
+      window.addEventListener("keydown", onKey);
+      return () => window.removeEventListener("keydown", onKey);
+    }, [open]);
+    if (!open) return null;
+    return (
+      <div onClick={onClose} style={{ position: "fixed", inset: 0, zIndex: 200, background: "rgba(6,41,31,.5)", backdropFilter: "blur(6px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, animation: "riseUp .25s ease" }}>
+        <div onClick={(e) => e.stopPropagation()} className="card" style={{ width: "min(480px,100%)", borderRadius: 26, padding: 32, position: "relative", boxShadow: "var(--shadow-lg)" }}>
+          <button onClick={onClose} style={{ position: "absolute", top: 18, right: 18, width: 34, height: 34, borderRadius: 10, background: "var(--mint)", color: "var(--ink)", fontSize: 18, fontWeight: 700 }}>×</button>
+          {!sent ? (
+            <>
+              <div className="wordmark" style={{ fontSize: "1.3rem", marginBottom: 4 }}>Investi<span className="play">Play</span></div>
+              <h3 style={{ fontSize: "1.6rem", fontWeight: 800, letterSpacing: "-.02em", margin: "8px 0 6px" }}>Request a demo</h3>
+              <p style={{ color: "rgba(6,41,31,.62)", margin: "0 0 22px", fontSize: ".98rem" }}>We'll reach out within one school day to set up your walkthrough.</p>
+              <form onSubmit={(e) => { e.preventDefault(); setSent(true); }}>
+                <div style={{ display: "grid", gap: 12 }}>
+                  <input required placeholder="Full name" className="lab-input" />
+                  <input required type="email" placeholder="Work email" className="lab-input" />
+                  <input placeholder="School / organization" className="lab-input" />
+                  <div style={{ display: "flex", gap: 8 }}>
+                    {["Teacher", "Admin", "Parent", "Student"].map((r) => (
+                      <button type="button" key={r} onClick={() => setRole(r)} style={{ flex: 1, padding: "11px 0", borderRadius: 11, fontWeight: 700, fontSize: ".88rem", transition: "all .15s",
+                        background: role === r ? "var(--accent)" : "var(--mint)", color: role === r ? "#eafff5" : "var(--ink)" }}>{r}</button>
+                    ))}
+                  </div>
+                </div>
+                <button type="submit" className="btn btn-primary" style={{ width: "100%", justifyContent: "center", padding: "15px", marginTop: 18, fontSize: "1.02rem" }}>Request demo <Icon name="arrow" size={18} /></button>
+              </form>
+            </>
+          ) : (
+            <div style={{ textAlign: "center", padding: "20px 0 8px", animation: "pop .4s ease" }}>
+              <div style={{ width: 72, height: 72, borderRadius: "50%", background: "var(--leaf)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 18px" }}>
+                <Icon name="check" size={38} color="#042018" stroke={2.4} />
+              </div>
+              <h3 style={{ fontSize: "1.5rem", fontWeight: 800, margin: "0 0 8px" }}>You're on the list! 🎉</h3>
+              <p style={{ color: "rgba(6,41,31,.64)", margin: "0 0 22px", fontSize: "1rem", maxWidth: "30ch", marginInline: "auto" }}>Thanks for your interest in InvestiPlay. We'll be in touch shortly to schedule your walkthrough.</p>
+              <button onClick={onClose} className="btn btn-ghost" style={{ padding: "12px 26px" }}>Done</button>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  function Footer({ onDemo }) {
+    const cols = [
+      ["Product", ["Missions", "Live Sim", "Build a Business", "Leaderboard"]],
+      ["For", ["Teachers", "Schools & Districts", "Parents", "Students"]],
+      ["Company", ["About", "Standards alignment", "Pricing", "Contact"]],
+    ];
+    return (
+      <footer style={{ background: "var(--dark)", color: "#bfe0d0", padding: "56px 0 30px" }}>
+        <div className="wrap">
+          <div style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr 1fr 1fr", gap: 30 }} className="foot-grid">
+            <div>
+              <div className="wordmark wordmark--light" style={{ fontSize: "1.4rem" }}>Investi<span className="play">Play</span></div>
+              <p style={{ color: "#7fae9a", maxWidth: "28ch", margin: "14px 0 18px", lineHeight: 1.5, fontSize: ".95rem" }}>Learn money skills that last. The financial-literacy app students actually finish.</p>
+              <button className="btn btn-gold" style={{ padding: "12px 22px" }} onClick={onDemo}>Request a Demo</button>
+            </div>
+            {cols.map(([h, items]) => (
+              <div key={h}>
+                <div style={{ color: "#eafff5", fontWeight: 700, fontSize: ".95rem", marginBottom: 14 }}>{h}</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {items.map((it) => <a key={it} href="#" style={{ color: "#7fae9a", fontSize: ".92rem", transition: "color .2s" }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = "#4fd99b"} onMouseLeave={(e) => e.currentTarget.style.color = "#7fae9a"}>{it}</a>)}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div style={{ borderTop: "1px solid rgba(255,255,255,.08)", marginTop: 40, paddingTop: 22, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12, color: "#5e8775", fontSize: ".85rem" }}>
+            <span>© 2026 InvestiPlay. All rights reserved.</span>
+            <span style={{ display: "flex", gap: 22 }}><a href="#" style={{ color: "#5e8775" }}>Privacy</a><a href="#" style={{ color: "#5e8775" }}>Terms</a><a href="#" style={{ color: "#5e8775" }}>@InvestiPlay</a></span>
+          </div>
+        </div>
+        <style>{`@media (max-width:760px){ .foot-grid{ grid-template-columns:1fr 1fr !important; } }`}</style>
+      </footer>
+    );
+  }
+
+  Object.assign(window, { Curriculum, FinalCTA, DemoModal, Footer });
+  </script>
+
+  <!-- ============================ interactive (Loader, Progress, Cursor, Marquee, Manifesto) ============================ -->
+  <script type="text/babel" data-presets="react">
+  const { useState: useStateI, useEffect: useEffectI, useRef: useRefI } = React;
+
+  const coarsePointer = () => window.matchMedia("(hover: none), (pointer: coarse)").matches;
+
+  function Loader({ enabled }) {
+    const [phase, setPhase] = useStateI("init");
+    const [count, setCount] = useStateI(0);
+    useEffectI(() => {
+      const reduce = document.body.classList.contains("no-motion") || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!enabled || reduce || sessionStorage.getItem("iplay_intro") === "1") { setPhase("gone"); return; }
+      sessionStorage.setItem("iplay_intro", "1");
+      document.body.style.overflow = "hidden";
+      const t0 = performance.now();
+      let raf;
+      const tick = (now) => { const p = Math.min(1, (now - t0) / 1400); setCount(Math.round(p * 100)); if (p < 1) raf = requestAnimationFrame(tick); };
+      raf = requestAnimationFrame(tick);
+      const t1 = setTimeout(() => setPhase("open"), 1750);
+      const t2 = setTimeout(() => { setPhase("gone"); document.body.style.overflow = ""; }, 2700);
+      return () => { cancelAnimationFrame(raf); clearTimeout(t1); clearTimeout(t2); document.body.style.overflow = ""; };
+    }, [enabled]);
+
+    if (phase === "gone") return null;
+    const opening = phase === "open";
+    const Panel = ({ side }) => (
+      <div style={{
+        position: "absolute", left: 0, right: 0, height: "50%", [side]: 0,
+        background: "linear-gradient(180deg,#0a3d2e,#06291f)",
+        transform: opening ? `translateY(${side === "top" ? "-101%" : "101%"})` : "translateY(0)",
+        transition: "transform .95s cubic-bezier(.76,0,.24,1)", zIndex: 1,
+      }} />
+    );
+    return (
+      <div style={{ position: "fixed", inset: 0, zIndex: 9999, pointerEvents: opening ? "none" : "auto", overflow: "hidden" }}
+           onClick={() => setPhase("open")}>
+        <Panel side="top" /><Panel side="bottom" />
+        <div style={{ position: "absolute", inset: 0, zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 22,
+          opacity: opening ? 0 : 1, transition: "opacity .4s" }}>
+          <div style={{ overflow: "hidden" }}>
+            <div className="wordmark wordmark--light" style={{ fontSize: "clamp(2.2rem,7vw,4.2rem)", animation: "riseUp .7s cubic-bezier(.2,.7,.3,1) both" }}>
+              Investi<span className="play">Play</span>
+            </div>
+          </div>
+          <svg width="220" height="48" viewBox="0 0 220 48" style={{ display: "block" }}>
+            <path d="M4 40 L40 30 L70 36 L100 18 L140 26 L175 8 L216 14" fill="none" stroke="#3fe08f" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"
+              style={{ strokeDasharray: 340, strokeDashoffset: 340, animation: "drawLine 1.3s ease forwards .25s" }} />
+            <circle cx="216" cy="14" r="5" fill="#3fe08f" style={{ opacity: 0, animation: "fadeDot .3s ease forwards 1.4s" }} />
+          </svg>
+          <div className="mono" style={{ color: "#7fae9a", fontSize: ".85rem", letterSpacing: ".25em", textTransform: "uppercase", display: "flex", gap: 10 }}>
+            <span>Opening the market</span><span style={{ color: "#eafff5", width: 42, textAlign: "right" }}>{count}%</span>
+          </div>
+        </div>
+        <style>{`
+          @keyframes drawLine { to { stroke-dashoffset: 0; } }
+          @keyframes fadeDot { to { opacity: 1; } }
+        `}</style>
+      </div>
+    );
+  }
+
+  function ScrollProgress() {
+    const [w, setW] = useStateI(0);
+    useEffectI(() => {
+      const on = () => { const h = document.documentElement.scrollHeight - window.innerHeight; setW(h > 0 ? (window.scrollY / h) * 100 : 0); };
+      window.addEventListener("scroll", on, { passive: true }); on();
+      return () => window.removeEventListener("scroll", on);
+    }, []);
+    return <div style={{ position: "fixed", top: 0, left: 0, height: 3, width: `${w}%`, background: "linear-gradient(90deg,var(--leaf),var(--gold))", zIndex: 9000, transition: "width .08s linear", boxShadow: "0 0 10px rgba(43,182,115,.6)" }} />;
+  }
+
+  function Cursor({ enabled }) {
+    const dot = useRefI(null), ring = useRefI(null), label = useRefI(null);
+    const [hidden, setHidden] = useStateI(true);
+    useEffectI(() => {
+      if (!enabled || coarsePointer()) return;
+      document.body.classList.add("has-cursor");
+      const pos = { x: innerWidth / 2, y: innerHeight / 2 }, rg = { x: pos.x, y: pos.y };
+      let hovering = false, raf;
+      const move = (e) => { pos.x = e.clientX; pos.y = e.clientY; setHidden(false); };
+      const over = (e) => {
+        const t = e.target.closest("a, button, [data-cur], input, .feat-card");
+        hovering = !!t;
+        if (label.current) {
+          const txt = t && t.getAttribute && t.getAttribute("data-cur");
+          label.current.textContent = txt || "";
+          label.current.style.opacity = txt ? "1" : "0";
+        }
+        if (ring.current) ring.current.style.transform = `translate(-50%,-50%) scale(${hovering ? 1.9 : 1})`;
+        if (ring.current) ring.current.style.background = hovering ? "rgba(43,182,115,.16)" : "transparent";
+      };
+      const loop = () => {
+        rg.x += (pos.x - rg.x) * 0.18; rg.y += (pos.y - rg.y) * 0.18;
+        if (dot.current) dot.current.style.transform = `translate(${pos.x}px,${pos.y}px) translate(-50%,-50%)`;
+        if (ring.current) ring.current.style.left = rg.x + "px", ring.current.style.top = rg.y + "px";
+        if (label.current) label.current.style.transform = `translate(${rg.x}px,${rg.y}px) translate(-50%, 26px)`;
+        raf = requestAnimationFrame(loop);
+      };
+      loop();
+      window.addEventListener("mousemove", move);
+      document.addEventListener("mouseover", over);
+      document.addEventListener("mouseout", () => setHidden(false));
+      return () => { cancelAnimationFrame(raf); window.removeEventListener("mousemove", move); document.removeEventListener("mouseover", over); document.body.classList.remove("has-cursor"); };
+    }, [enabled]);
+    if (!enabled || coarsePointer()) return null;
+    const o = hidden ? 0 : 1;
+    return (
+      <>
+        <div ref={dot} style={{ position: "fixed", top: 0, left: 0, width: 8, height: 8, borderRadius: "50%", background: "var(--ink)", zIndex: 9500, pointerEvents: "none", opacity: o, mixBlendMode: "multiply" }} />
+        <div ref={ring} style={{ position: "fixed", width: 38, height: 38, borderRadius: "50%", border: "1.5px solid var(--emerald)", transform: "translate(-50%,-50%)", zIndex: 9500, pointerEvents: "none", transition: "transform .2s, background .2s, border-color .2s", opacity: o }} />
+        <div ref={label} className="mono" style={{ position: "fixed", top: 0, left: 0, zIndex: 9500, pointerEvents: "none", fontSize: ".7rem", fontWeight: 700, color: "var(--emerald)", background: "var(--white)", padding: "3px 9px", borderRadius: 99, boxShadow: "var(--shadow-sm)", opacity: 0, transition: "opacity .2s", whiteSpace: "nowrap", letterSpacing: ".04em" }} />
+      </>
+    );
+  }
+
+  function DragCoin({ color, glyph, label, init }) {
+    const ref = useRefI(null);
+    useEffectI(() => {
+      const el = ref.current; if (!el) return;
+      let drag = false, sx = 0, sy = 0, ox = 0, oy = 0, x = 0, y = 0;
+      const down = (e) => { drag = true; el.setPointerCapture(e.pointerId); sx = e.clientX; sy = e.clientY; ox = x; oy = y; el.style.transition = "none"; el.style.zIndex = 30; el.style.cursor = "grabbing"; };
+      const moveE = (e) => { if (!drag) return; x = ox + (e.clientX - sx); y = oy + (e.clientY - sy); const rot = Math.max(-22, Math.min(22, (e.clientX - sx) * 0.12)); el.style.transform = `translate(${x}px,${y}px) rotate(${rot}deg)`; };
+      const up = () => { if (!drag) return; drag = false; el.style.transition = "transform .6s cubic-bezier(.2,1.4,.4,1)"; el.style.transform = `translate(${x}px,${y}px) rotate(0deg)`; el.style.cursor = "grab"; };
+      el.addEventListener("pointerdown", down); el.addEventListener("pointermove", moveE); el.addEventListener("pointerup", up); el.addEventListener("pointercancel", up);
+      return () => { el.removeEventListener("pointerdown", down); el.removeEventListener("pointermove", moveE); el.removeEventListener("pointerup", up); el.removeEventListener("pointercancel", up); };
+    }, []);
+    return (
+      <div ref={ref} data-cur="drag me" title="drag me!" style={{
+        position: "absolute", ...init, width: 76, height: 76, borderRadius: "50%", cursor: "grab", touchAction: "none", userSelect: "none",
+        background: `radial-gradient(circle at 34% 28%, ${color}, ${color} 58%, rgba(0,0,0,.3))`,
+        display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+        boxShadow: `0 12px 28px ${color}66, inset 0 -5px 12px rgba(0,0,0,.28), inset 0 5px 10px rgba(255,255,255,.32)`,
+        border: "3px solid rgba(255,255,255,.4)", zIndex: 4,
+      }}>
+        <span style={{ fontSize: 24, color: "#fff", lineHeight: 1, textShadow: "0 2px 5px rgba(0,0,0,.25)" }}>{glyph}</span>
+        <span className="mono" style={{ fontSize: ".5rem", color: "#fff", fontWeight: 700, marginTop: 2, letterSpacing: ".05em" }}>{label}</span>
+      </div>
+    );
+  }
+
+  function MarqueeBand() {
+    const words = ["LEARN BY DOING", "TRADE LIVE", "BUILD BUSINESSES", "COMPETE", "LEVEL UP"];
+    const Row = ({ reverse }) => (
+      <div style={{ display: "flex", overflow: "hidden", maskImage: "linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)" }}>
+        <div style={{ display: "flex", whiteSpace: "nowrap", animation: `tickerScroll ${reverse ? 38 : 30}s linear infinite`, animationDirection: reverse ? "reverse" : "normal", willChange: "transform" }}>
+          {[...words, ...words, ...words, ...words].map((w, i) => (
+            <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 26, padding: "0 26px", fontSize: "clamp(2rem,5vw,3.4rem)", fontWeight: 800, letterSpacing: "-.02em",
+              color: (i % 2 === 0) ? "var(--ink)" : "transparent", WebkitTextStroke: (i % 2 === 0) ? "0" : "1.5px rgba(6,41,31,.4)" }}>
+              {w}<span style={{ color: "var(--leaf)", WebkitTextStroke: 0, fontSize: ".7em" }}>✦</span>
+            </span>
+          ))}
+        </div>
+      </div>
+    );
+    return (
+      <section style={{ position: "relative", padding: "46px 0 56px", overflow: "hidden", borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)", background: "var(--paper)" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 6, position: "relative", zIndex: 1 }}>
+          <Row /><Row reverse />
+        </div>
+        <div className="coin-layer" style={{ position: "absolute", inset: 0, zIndex: 5, pointerEvents: "none" }}>
+          <div style={{ position: "absolute", inset: 0, pointerEvents: "auto" }}>
+            <DragCoin color="#e0a52e" glyph="$" label="+50" init={{ top: "12%", left: "8%" }} />
+            <DragCoin color="#2bb673" glyph="★" label="LVL 7" init={{ top: "44%", left: "78%" }} />
+            <DragCoin color="#3b82f6" glyph="✦" label="XP" init={{ top: "55%", left: "30%" }} />
+          </div>
+        </div>
+        <div style={{ position: "absolute", bottom: 10, left: "50%", transform: "translateX(-50%)", color: "rgba(6,41,31,.4)", fontSize: ".74rem", fontWeight: 600, zIndex: 6 }}>↑ grab the coins and fling them ↑</div>
+        <style>{`@media (max-width:640px){ .coin-layer{ display:none; } }`}</style>
+      </section>
+    );
+  }
+
+  const MANIFESTO = [
+    { k: "School taught you", big: "You learned the ", em: "alphabet", rest: "." },
+    { k: "School taught you", big: "You learned the ", em: "quadratic formula", rest: "." },
+    { k: "School taught you", big: "You memorized the ", em: "periodic table", rest: "." },
+    { k: "The gap", big: "But no one ever ", em: "taught you", rest: "…" },
+    { k: "The gap", big: "The difference between a ", em: "credit card", rest: " and a debit card." },
+    { k: "The gap", big: "How to take out a ", em: "loan", rest: "." },
+    { k: "The gap", big: "How to invest in the market ", em: "responsibly", rest: "." },
+  ];
+  function Manifesto({ onDemo }) {
+    const wrapRef = useRefI(null);
+    const [p, setP] = useStateI(0);
+    const reduce = typeof document !== "undefined" && document.body.classList.contains("no-motion");
+    useEffectI(() => {
+      const on = () => {
+        const el = wrapRef.current; if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const total = el.offsetHeight - window.innerHeight;
+        const scrolled = Math.min(total, Math.max(0, -rect.top));
+        setP(total > 0 ? scrolled / total : 0);
+      };
+      window.addEventListener("scroll", on, { passive: true }); window.addEventListener("resize", on); on();
+      return () => { window.removeEventListener("scroll", on); window.removeEventListener("resize", on); };
+    }, []);
+    const n = MANIFESTO.length;
+    const N = n + 1;
+
+    const Finale = () => (
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 22 }}>
+        <div className="mono" style={{ color: "#4fd99b", fontSize: ".82rem", letterSpacing: ".26em", textTransform: "uppercase" }}>That’s where InvestiPlay comes in</div>
+        <h2 style={{ color: "#eafff5", fontSize: "clamp(2.3rem,6.2vw,5rem)", fontWeight: 800, letterSpacing: "-.04em", margin: 0, lineHeight: 1.02, maxWidth: "19ch" }}>
+          Level up your finances <span style={{ color: "#3fe08f" }}>before life does it for you</span>.
+        </h2>
+        <p style={{ color: "#9cc4b3", fontSize: "clamp(1rem,1.5vw,1.2rem)", maxWidth: "44ch", margin: 0, lineHeight: 1.55 }}>
+          Trade live markets, build businesses, and compete with your class — with every concept explained the moment you actually need it.
+        </p>
+        <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center", marginTop: 8 }}>
+          <button className="btn btn-gold" data-cur="let's go" style={{ padding: "16px 32px", fontSize: "1.05rem" }} onClick={onDemo}>Request a Demo</button>
+          <a href="#how" className="btn" data-cur="scroll" style={{ padding: "16px 28px", fontSize: "1.05rem", background: "rgba(255,255,255,.1)", color: "#eafff5" }}>Explore the ecosystem ↓</a>
+        </div>
+      </div>
+    );
+
+    if (reduce) {
+      return (
+        <section id="why" style={{ background: "var(--dark)", padding: "100px 0" }}>
+          <div className="wrap" style={{ display: "flex", flexDirection: "column", gap: 40 }}>
+            {MANIFESTO.map((m, i) => (
+              <div key={i}>
+                <div className="mono" style={{ color: "#4fd99b", fontSize: ".8rem", letterSpacing: ".2em", textTransform: "uppercase", marginBottom: 8 }}>{m.k}</div>
+                <h2 style={{ color: "#eafff5", fontSize: "clamp(1.8rem,4vw,3.2rem)", fontWeight: 800, letterSpacing: "-.03em", margin: 0, lineHeight: 1.08 }}>{m.big}<span style={{ color: "#3fe08f" }}>{m.em}</span>{m.rest}</h2>
+              </div>
+            ))}
+            <div style={{ marginTop: 20 }}><Finale /></div>
+          </div>
+        </section>
+      );
+    }
+
+    return (
+      <section id="why" ref={wrapRef} style={{ height: `${(N + 1) * 82}vh`, position: "relative", background: "var(--dark)" }}>
+        <div style={{ position: "sticky", top: 0, height: "100vh", display: "flex", alignItems: "center", overflow: "hidden" }}>
+          <div style={{ position: "absolute", inset: 0, background: "radial-gradient(800px 500px at 50% 50%, rgba(43,182,115,.10), transparent)" }} />
+          <div style={{ position: "absolute", left: "max(28px,4vw)", top: "50%", transform: "translateY(-50%)", display: "flex", flexDirection: "column", gap: 12, zIndex: 3 }}>
+            {Array.from({ length: N }).map((_, i) => {
+              const active = Math.round(p * (N - 1)) === i;
+              return <div key={i} style={{ width: active ? 10 : 7, height: active ? 10 : 7, borderRadius: "50%", background: active ? "#3fe08f" : "rgba(255,255,255,.2)", transition: "all .3s" }} />;
+            })}
+          </div>
+          <div className="wrap" style={{ position: "relative", textAlign: "center", width: "100%" }}>
+            {Array.from({ length: N }).map((_, i) => {
+              const isFinale = i === n;
+              const center = (i + 0.5) / N;
+              const dist = (p - center) * N;
+              let opacity, ty;
+              if (isFinale) { opacity = Math.max(0, Math.min(1, 1 + dist * 1.6)); ty = dist < 0 ? dist * -70 : 0; }
+              else { opacity = Math.max(0, 1 - Math.abs(dist) * 1.5); ty = dist * -70; }
+              const scale = 1 - Math.min(0.12, Math.abs(dist) * 0.12);
+              const m = MANIFESTO[i];
+              return (
+                <div key={i} style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 18, opacity, transform: `translateY(${ty}px) scale(${scale})`, pointerEvents: opacity > 0.5 ? "auto" : "none" }}>
+                  {isFinale ? <Finale /> : (
+                    <>
+                      <div className="mono" style={{ color: "#4fd99b", fontSize: ".82rem", letterSpacing: ".26em", textTransform: "uppercase" }}>{m.k}</div>
+                      <h2 style={{ color: "#eafff5", fontSize: "clamp(1.9rem,4.6vw,3.6rem)", fontWeight: 800, letterSpacing: "-.035em", margin: "0 auto", lineHeight: 1.08, maxWidth: "9em" }}>
+                        {m.big}<span style={{ color: "#3fe08f" }}>{m.em}</span>{m.rest}
+                      </h2>
+                    </>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+          <div style={{ position: "absolute", bottom: 30, left: "50%", transform: "translateX(-50%)", color: "#5e8775", fontSize: ".78rem", fontWeight: 600, letterSpacing: ".1em", display: "flex", flexDirection: "column", alignItems: "center", gap: 8, opacity: p > 0.78 ? 0 : 1, transition: "opacity .3s" }}>
+            <span>SCROLL</span>
+            <span style={{ width: 1, height: 26, background: "linear-gradient(#5e8775,transparent)" }} />
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  Object.assign(window, { Loader, ScrollProgress, Cursor, MarqueeBand, Manifesto });
+  </script>
+
+  <!-- ============================ app (composition) ============================ -->
+  <script type="text/babel" data-presets="react">
+  const { useState: useStateApp, useEffect: useEffectApp } = React;
+
+  const TWEAK_DEFAULTS = {
+    "accent": "#15604a",
+    "reduceMotion": false,
+    "introLoader": true,
+    "customCursor": true
+  };
+
+  const ACCENTS = ["#15604a", "#0e7490", "#2563eb", "#7c3aed"];
+
+  function App() {
+    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+    const [demoOpen, setDemoOpen] = useStateApp(false);
+    const openDemo = () => setDemoOpen(true);
+
+    useEffectApp(() => {
+      document.documentElement.style.setProperty("--accent", t.accent);
+    }, [t.accent]);
+    useEffectApp(() => {
+      document.body.classList.toggle("no-motion", !!t.reduceMotion);
+    }, [t.reduceMotion]);
+
+    return (
+      <>
+        <Loader enabled={t.introLoader} />
+        <ScrollProgress />
+        <Cursor enabled={t.customCursor && !t.reduceMotion} />
+        <Nav onDemo={openDemo} />
+        <Manifesto onDemo={openDemo} />
+        <MarqueeBand />
+        <HowItWorks />
+        <StockSim />
+        <Curriculum />
+        <Stats />
+        <FinalCTA onDemo={openDemo} />
+        <Footer onDemo={openDemo} />
+        <DemoModal open={demoOpen} onClose={() => setDemoOpen(false)} />
+
+        <TweaksPanel>
+          <TweakSection label="Brand" />
+          <TweakColor label="Accent" value={t.accent} options={ACCENTS} onChange={(v) => setTweak("accent", v)} />
+          <TweakSection label="Motion" />
+          <TweakToggle label="Intro loader" value={t.introLoader} onChange={(v) => setTweak("introLoader", v)} />
+          <TweakToggle label="Custom cursor" value={t.customCursor} onChange={(v) => setTweak("customCursor", v)} />
+          <TweakToggle label="Reduce animation" value={t.reduceMotion} onChange={(v) => setTweak("reduceMotion", v)} />
+        </TweaksPanel>
+      </>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
