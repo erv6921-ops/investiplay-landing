@@ -1256,7 +1256,7 @@
   function App() {
     const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
     const [demoOpen, setDemoOpen] = useStateApp(false);
-    const openDemo = () => setDemoOpen(true);
+    const openDemo = () => { window.location.href = "/demo.html"; };
 
     useEffectApp(() => {
       document.documentElement.style.setProperty("--accent", t.accent);
