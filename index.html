@@ -835,7 +835,7 @@
             </div>
           </div>
 
-          <div className="reveal card cur-detail" style={{ padding: 28, borderRadius: 24, display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 26, alignItems: "center" }}>
+          <div className="reveal card cur-detail" style={{ padding: 28, borderRadius: 24, display: "grid", gridTemplateColumns: "auto 1fr", gap: 26, alignItems: "center" }}>
             <div style={{ width: 70, height: 70, borderRadius: 18, background: u.active ? "var(--gold-soft)" : "var(--mint)", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Icon name={u.icon} size={32} color={u.active ? "var(--gold)" : "var(--emerald)"} />
             </div>
@@ -847,7 +847,6 @@
               </div>
               <div style={{ color: "rgba(6,41,31,.6)", fontSize: ".98rem" }}>{u.std} · <strong style={{ color: "var(--ink)" }}>{u.lessons} interactive lessons</strong></div>
             </div>
-            <a href="#" className="btn btn-ghost" style={{ padding: "12px 20px" }}>Preview unit <Icon name="arrow" size={17} /></a>
           </div>
         </div>
         <style>{`
