@@ -2,7 +2,7 @@
 const { useState: useStateF, useEffect: useEffectF, useRef: useRefF } = React;
 
 const REEL_FACTS = [
-  { icon: "book",   kicker: "Missions",     stat: "272",     unit: "lessons",     line: "Four units — from the Psychology of Money to Investing Fundamentals.", bg: "var(--ink)",      fg: "#eafff5", accent: "#3fe08f" },
+  { icon: "book",   kicker: "Missions",     stat: "300+",    unit: "lessons",     line: "10 levels, 35 units — from the Psychology of Money to running a business.", bg: "var(--ink)",      fg: "#eafff5", accent: "#3fe08f" },
   { icon: "chart",  kicker: "Stocks",       stat: "Live",    unit: "markets",     line: "Trade NVDA, AAPL, TSLA & more at real last-close prices.",            bg: "var(--white)",    fg: "var(--ink)", accent: "var(--emerald-2)", border: true },
   { icon: "bolt",   kicker: "Rewards",      stat: "+250",    unit: "XP a mission", line: "Build streaks, bank coins and unlock brand-new territory.",            bg: "var(--gold)",     fg: "#3a2a06", accent: "#3a2a06" },
   { icon: "doc",    kicker: "The Lab",      stat: "Real",    unit: "paperwork",   line: "File W-4s, I-9s and tax forms in a safe sandbox before it counts.",     bg: "var(--leaf)",     fg: "#042018", accent: "#042018" },

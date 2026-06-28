@@ -2,18 +2,24 @@
 const { useState: useStateC, useEffect: useEffectC } = React;
 
 /* ============== CURRICULUM LEARNING PATH ============== */
+// The real curriculum: 10 levels → 35 units → 300+ lessons (mirrors the app's
+// unitInfo / LEVEL_TITLES). `units` is how many units live in each level.
 const UNITS = [
-  { n: "1", title: "Money Mindset", std: "PFL.1 · Earning & Income", lessons: 6, icon: "spark" },
-  { n: "2", title: "Budgeting & Banking", std: "PFL.2 · Spending & Saving", lessons: 8, icon: "shield" },
-  { n: "3", title: "Credit & Debt", std: "PFL.3 · Credit & Borrowing", lessons: 7, icon: "coin" },
-  { n: "4", title: "Investing Basics", std: "PFL.4 · Saving & Investing", lessons: 9, icon: "chart" },
-  { n: "5", title: "Markets & Risk", std: "PFL.5 · Risk Management", lessons: 7, icon: "target" },
-  { n: "6", title: "Build & Launch", std: "Capstone · Entrepreneurship", lessons: 5, icon: "rocket" },
+  { n: "1",  title: "Money Foundations",      std: "Psychology of money · Income · Budgeting · Investing basics", units: 4,  icon: "spark" },
+  { n: "2",  title: "Banking & Credit",       std: "Banking · Credit & debt · Insurance",                         units: 3,  icon: "shield" },
+  { n: "3",  title: "Investing Core",         std: "Intro to investing · Stocks · How markets work",              units: 3,  icon: "chart" },
+  { n: "4",  title: "Portfolio Strategy",     std: "Portfolios · ETFs & funds · Bonds",                           units: 3,  icon: "coin" },
+  { n: "5",  title: "Company Analysis",       std: "Financial statements · Ratios · Valuation",                   units: 3,  icon: "doc" },
+  { n: "6",  title: "Behavioral Finance",     std: "Behavioral economics · Bubbles & crashes",                    units: 2,  icon: "users" },
+  { n: "7",  title: "Macro Economics",        std: "Inflation & rates · Economic indicators",                     units: 2,  icon: "target" },
+  { n: "8",  title: "Entrepreneurship",       std: "Starting a business · Strategy · Marketing · Leadership",     units: 11, icon: "rocket" },
+  { n: "9",  title: "Advanced Investing",     std: "Options · Alternative investments",                           units: 2,  icon: "bolt" },
+  { n: "10", title: "Real-World Application", std: "10-year financial plan · Market simulations",                 units: 2,  icon: "trophy" },
 ];
 
-// horizontal fraction (0..1) of each unit node — alternates around the centre so
+// horizontal fraction (0..1) of each level node — alternates around the centre so
 // every label sits on the OUTER side, clear of the squiggle that runs up the middle
-const ZIG_FX = [0.30, 0.70, 0.34, 0.66, 0.28, 0.72];
+const ZIG_FX = UNITS.map((_, i) => (i % 2 === 0 ? 0.30 : 0.70));
 
 function Curriculum() {
   const ref = useReveal();
@@ -133,9 +139,9 @@ function Curriculum() {
         <div className="reveal cur-head" style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 30, alignItems: "end", marginBottom: 18 }}>
           <div>
             <span className="eyebrow"><Icon name="cap" size={14} color="var(--emerald)" /> The curriculum</span>
-            <h2 className="sec-title">A full-year path<br /><span style={{ color: "var(--emerald-2)" }}>that meets the requirement.</span></h2>
+            <h2 className="sec-title">The full curriculum,<br /><span style={{ color: "var(--emerald-2)" }}>level by level.</span></h2>
           </div>
-          <p className="sec-sub" style={{ margin: 0 }}>Six units, 42 standards-aligned lessons. Map directly to your state's personal-finance graduation requirement — and students unlock each one by proving mastery. <strong style={{ color: "var(--emerald-2)" }}>Scroll to follow the path.</strong></p>
+          <p className="sec-sub" style={{ margin: 0 }}>Ten levels, 35 units and 300+ lessons — from the Psychology of Money all the way to running a business and live market simulations. Students unlock each level by proving mastery. <strong style={{ color: "var(--emerald-2)" }}>Scroll to follow the path.</strong></p>
         </div>
 
         {/* scroll-driven zigzag path */}
@@ -164,7 +170,7 @@ function Curriculum() {
                     <div className="zlabel-std">{u.std}</div>
                     <span className="zstatus">
                       <span className="zstatus-locked"><Icon name="lock" size={11} stroke={2.4} /> Locked</span>
-                      <span className="zstatus-open"><Icon name="check" size={11} stroke={2.6} /> {u.lessons} lessons unlocked</span>
+                      <span className="zstatus-open"><Icon name="check" size={11} stroke={2.6} /> {u.units} units unlocked</span>
                     </span>
                   </div>
                 </div>
