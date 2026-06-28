@@ -21,6 +21,26 @@ const UNITS = [
 // every label sits on the OUTER side, clear of the squiggle that runs up the middle
 const ZIG_FX = UNITS.map((_, i) => (i % 2 === 0 ? 0.30 : 0.70));
 
+// Jeff hanging out on Level 5 of the path: one flip on arrival, then a "click me!"
+// nudge — every click makes him flip again.
+function PathJeff() {
+  const [flipKey, setFlipKey] = useStateC(0);
+  const [hint, setHint] = useStateC(false);
+  useEffectC(() => {
+    const t = setTimeout(() => setHint(true), 1250); // after the first flip finishes
+    return () => clearTimeout(t);
+  }, []);
+  return (
+    <div role="button" aria-label="Make Jeff flip" style={{ position: "relative", cursor: "pointer" }}
+      onClick={() => { setHint(false); setFlipKey(k => k + 1); }}>
+      <div key={flipKey} className="jeff-flip-once">
+        <Jeff uid="path" size={120} idle={false} arm="point" look="up" expr="happy" />
+      </div>
+      {hint && <div className="jeff-clickme">click me!</div>}
+    </div>
+  );
+}
+
 function Curriculum() {
   const ref = useReveal();
   const trackRef = useRef(null);
@@ -183,11 +203,9 @@ function Curriculum() {
                 left: layout.circles[4].x + (layout.circles[4].x < layout.w / 2 ? 100 : -100),
                 top: layout.circles[4].y,
                 transform: "translate(-50%, -50%)",
-                zIndex: 3, pointerEvents: "none",
+                zIndex: 3,
               }}>
-                <div className="jeff-flip">
-                  <Jeff uid="path" size={120} idle={false} arm="point" look="up" expr="happy" />
-                </div>
+                <PathJeff />
               </div>
             )}
           </div>
@@ -236,14 +254,22 @@ function Curriculum() {
         .znode.on .zstatus-locked{ display: none; }
         .znode.on .zstatus-open{ display: inline-flex; }
 
-        .jeff-flip{ animation: jeffFlip 3.4s cubic-bezier(.5,.05,.3,1) infinite; transform-origin: center 62%; will-change: transform; }
+        .jeff-flip-once{ animation: jeffFlip 1.15s cubic-bezier(.5,.05,.3,1); transform-origin: center 62%; will-change: transform; }
         @keyframes jeffFlip{
-          0%, 52%   { transform: translateY(0) rotate(0deg); }
-          60%       { transform: translateY(-12px) rotate(0deg); }
-          74%       { transform: translateY(-46px) rotate(-180deg); }
-          88%, 100% { transform: translateY(0) rotate(-360deg); }
+          0%   { transform: translateY(0) rotate(0deg); }
+          22%  { transform: translateY(-10px) rotate(0deg); }
+          55%  { transform: translateY(-52px) rotate(-180deg); }
+          100% { transform: translateY(0) rotate(-360deg); }
         }
-        body.no-motion .jeff-flip{ animation: none; }
+        .jeff-clickme{ position: absolute; left: 50%; top: -12px; transform: translate(-50%,-100%);
+          background: var(--gold); color: #3a2a06; font-weight: 800; font-size: .8rem; white-space: nowrap;
+          padding: 6px 13px; border-radius: 999px; box-shadow: 0 8px 20px rgba(224,165,46,.4);
+          animation: clickmePulse 1.2s ease-in-out infinite; pointer-events: none; }
+        .jeff-clickme::after{ content: ""; position: absolute; left: 50%; bottom: -4px; width: 10px; height: 10px;
+          background: var(--gold); transform: translateX(-50%) rotate(45deg); }
+        @keyframes clickmePulse{ 0%,100%{ transform: translate(-50%,-100%) scale(1); } 50%{ transform: translate(-50%,-100%) scale(1.08); } }
+        body.no-motion .jeff-flip-once{ animation: none; }
+        body.no-motion .jeff-clickme{ animation: none; }
 
         @media (max-width:820px){ .cur-head{ grid-template-columns:1fr !important; } }
         @media (max-width:560px){
