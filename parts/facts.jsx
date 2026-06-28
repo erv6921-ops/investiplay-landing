@@ -85,7 +85,10 @@ function FactsReel() {
       <section id="inside" style={{ background: "var(--paper)", padding: "90px 0", borderTop: "1px solid var(--line)" }}>
         <div className="wrap">
           <span className="eyebrow"><Icon name="grid" size={14} color="var(--emerald)" /> Inside InvestiPlay</span>
-          <h2 className="sec-title" style={{ marginTop: 14 }}>One app, an entire economy.</h2>
+          <h2 className="sec-title" style={{ marginTop: 14 }}>One app, an entire risk-free economy<sup style={{ color: "#2563eb" }}>*</sup></h2>
+          <p style={{ margin: "10px 0 0", fontSize: ".9rem", color: "rgba(6,41,31,.62)", maxWidth: "44ch", lineHeight: 1.4 }}>
+            <span style={{ color: "#2563eb", fontWeight: 800 }}>*</span> Students trade, invest and build businesses with virtual coins — never real money.
+          </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 18, marginTop: 36 }}>
             {REEL_FACTS.map((f, i) => <Card key={f.kicker} f={f} i={i} />)}
           </div>
@@ -99,7 +102,10 @@ function FactsReel() {
       <div ref={wrapRef} className="reel-pin">
         <div className="reel-head">
           <span className="eyebrow"><Icon name="grid" size={14} color="var(--emerald)" /> Inside InvestiPlay</span>
-          <h2 className="reel-title">One app, an <span>entire economy.</span></h2>
+          <h2 className="reel-title">One app, an <span>entire risk-free economy</span><sup style={{ color: "#2563eb", fontWeight: 800 }}>*</sup></h2>
+          <p style={{ margin: 0, fontSize: "clamp(.8rem,1.4vw,.95rem)", color: "rgba(6,41,31,.62)", maxWidth: "44ch", lineHeight: 1.4 }}>
+            <span style={{ color: "#2563eb", fontWeight: 800 }}>*</span> Students trade, invest and build businesses with virtual coins — never real money.
+          </p>
           <div className="reel-prog"><span ref={fillRef} className="reel-prog-fill" /></div>
         </div>
 
