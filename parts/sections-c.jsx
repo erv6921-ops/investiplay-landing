@@ -185,7 +185,9 @@ function Curriculum() {
                 transform: "translate(-50%, -50%)",
                 zIndex: 3, pointerEvents: "none",
               }}>
-                <Jeff uid="path" size={120} arm="point" look="up" expr="happy" />
+                <div className="jeff-flip">
+                  <Jeff uid="path" size={120} idle={false} arm="point" look="up" expr="happy" />
+                </div>
               </div>
             )}
           </div>
@@ -234,11 +236,14 @@ function Curriculum() {
         .znode.on .zstatus-locked{ display: none; }
         .znode.on .zstatus-open{ display: inline-flex; }
 
-        .zfinish{ position: absolute; transform: translate(-50%, -10px); display: flex; flex-direction: column;
-          align-items: center; gap: 10px; z-index: 3; pointer-events: none; }
-        .zfinish-flag{ display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 999px;
-          background: var(--leaf); color: #eafff5; font-weight: 800; font-size: .82rem; letter-spacing: -.01em;
-          box-shadow: 0 10px 24px rgba(43,182,115,.34); white-space: nowrap; }
+        .jeff-flip{ animation: jeffFlip 3.4s cubic-bezier(.5,.05,.3,1) infinite; transform-origin: center 62%; will-change: transform; }
+        @keyframes jeffFlip{
+          0%, 52%   { transform: translateY(0) rotate(0deg); }
+          60%       { transform: translateY(-12px) rotate(0deg); }
+          74%       { transform: translateY(-46px) rotate(-180deg); }
+          88%, 100% { transform: translateY(0) rotate(-360deg); }
+        }
+        body.no-motion .jeff-flip{ animation: none; }
 
         @media (max-width:820px){ .cur-head{ grid-template-columns:1fr !important; } }
         @media (max-width:560px){
