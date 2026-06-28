@@ -1,4 +1,4 @@
-// sections-a.jsx — LiveTicker, Nav, Hero (3 variants), Stats
+// sections-a.jsx — LiveTicker, Nav, Hero (3 variants)
 const { useState: useStateA, useEffect: useEffectA, useRef: useRefA } = React;
 
 /* ============== LIVE TICKER BAR ============== */
@@ -68,7 +68,7 @@ function Nav({ onDemo }) {
           ))}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <a href="#" className="nav-login" style={{ fontWeight: 700, fontSize: ".95rem", whiteSpace: "nowrap", color: scrolled ? "var(--ink)" : "#eafff5", transition: "color .3s" }}>Log in</a>
+          <a href="https://investiplay.app/auth" className="nav-login" style={{ fontWeight: 700, fontSize: ".95rem", whiteSpace: "nowrap", color: scrolled ? "var(--ink)" : "#eafff5", transition: "color .3s" }}>Log in</a>
           <button className="btn btn-primary" style={{ padding: "11px 20px", fontSize: ".92rem" }} onClick={onDemo}>Request a Demo</button>
         </div>
       </div>
@@ -252,42 +252,4 @@ function Hero({ heroStyle, headline, onDemo }) {
   );
 }
 
-/* ============== STATS ============== */
-function Stats() {
-  const ref = useReveal();
-  const items = [
-    { n: 50, suf: "", label: "U.S. states whose standards we map to", icon: "shield" },
-    { n: 18000, suf: "+", label: "students learning by doing", icon: "users" },
-    { n: 94, suf: "%", label: "pass their financial-literacy requirement", icon: "cap" },
-    { n: 4.8, suf: "★", label: "average student rating", icon: "spark", dec: 1 },
-  ];
-  return (
-    <section ref={ref} style={{ padding: "30px 0 20px" }}>
-      <div className="wrap">
-        <div className="reveal" style={{ background: "var(--dark)", borderRadius: 30, padding: "44px 40px", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", inset: 0, background: "radial-gradient(900px 300px at 80% -20%, rgba(43,182,115,.18), transparent)" }} />
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 24, position: "relative" }} className="stats-grid">
-            {items.map((it, i) => <StatCell key={i} {...it} />)}
-          </div>
-        </div>
-      </div>
-      <style>{`@media (max-width:760px){ .stats-grid{ grid-template-columns:1fr 1fr !important; } }`}</style>
-    </section>
-  );
-}
-function StatCell({ n, suf, label, icon, dec = 0 }) {
-  const [val, ref] = useCountUp(n, { decimals: dec });
-  return (
-    <div ref={ref}>
-      <div style={{ display: "inline-flex", padding: 9, borderRadius: 12, background: "rgba(43,182,115,.14)", marginBottom: 12 }}>
-        <Icon name={icon} size={20} color="#4fd99b" />
-      </div>
-      <div className="mono" style={{ fontSize: "2.6rem", fontWeight: 700, color: "#eafff5", letterSpacing: "-.03em", lineHeight: 1 }}>
-        {val}<span style={{ color: "#4fd99b" }}>{suf}</span>
-      </div>
-      <div style={{ color: "#9cc4b3", fontSize: ".92rem", marginTop: 8, lineHeight: 1.35, maxWidth: "22ch" }}>{label}</div>
-    </div>
-  );
-}
-
-Object.assign(window, { LiveTicker, Nav, Hero, Stats, AppPreview });
+Object.assign(window, { LiveTicker, Nav, Hero, AppPreview });

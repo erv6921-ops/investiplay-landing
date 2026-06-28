@@ -275,51 +275,41 @@ function FinalCTA({ onDemo }) {
   );
 }
 
-/* ============== DEMO MODAL ============== */
+/* ============== DEMO MODAL — reach the founders directly ============== */
 function DemoModal({ open, onClose }) {
-  const [sent, setSent] = useStateC(false);
-  const [role, setRole] = useStateC("Teacher");
   useEffectC(() => {
-    if (!open) { setTimeout(() => setSent(false), 300); }
     const onKey = (e) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
   if (!open) return null;
+  const founders = [
+    { name: "Eduardo Ribeiro do Valle", title: "Co-founder", email: "eduardorvalle@investiplay.app" },
+    { name: "Devon Roy", title: "Co-founder", email: "devonroy@investiplay.app" },
+  ];
   return (
     <div onClick={onClose} style={{ position: "fixed", inset: 0, zIndex: 200, background: "rgba(6,41,31,.5)", backdropFilter: "blur(6px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, animation: "riseUp .25s ease" }}>
-      <div onClick={(e) => e.stopPropagation()} className="card" style={{ width: "min(480px,100%)", borderRadius: 26, padding: 32, position: "relative", boxShadow: "var(--shadow-lg)" }}>
-        <button onClick={onClose} style={{ position: "absolute", top: 18, right: 18, width: 34, height: 34, borderRadius: 10, background: "var(--mint)", color: "var(--ink)", fontSize: 18, fontWeight: 700 }}>×</button>
-        {!sent ? (
-          <>
-            <div className="wordmark" style={{ fontSize: "1.3rem", marginBottom: 4 }}>Investi<span className="play">Play</span></div>
-            <h3 style={{ fontSize: "1.6rem", fontWeight: 800, letterSpacing: "-.02em", margin: "8px 0 6px" }}>Request a demo</h3>
-            <p style={{ color: "rgba(6,41,31,.62)", margin: "0 0 22px", fontSize: ".98rem" }}>We'll reach out within one school day to set up your walkthrough.</p>
-            <form onSubmit={(e) => { e.preventDefault(); setSent(true); }}>
-              <div style={{ display: "grid", gap: 12 }}>
-                <input required placeholder="Full name" className="lab-input" />
-                <input required type="email" placeholder="Work email" className="lab-input" />
-                <input placeholder="School / organization" className="lab-input" />
-                <div style={{ display: "flex", gap: 8 }}>
-                  {["Teacher", "Admin", "Parent", "Student"].map((r) => (
-                    <button type="button" key={r} onClick={() => setRole(r)} style={{ flex: 1, padding: "11px 0", borderRadius: 11, fontWeight: 700, fontSize: ".88rem", transition: "all .15s",
-                      background: role === r ? "var(--accent)" : "var(--mint)", color: role === r ? "#eafff5" : "var(--ink)" }}>{r}</button>
-                  ))}
-                </div>
+      <div onClick={(e) => e.stopPropagation()} className="card" style={{ width: "min(460px,100%)", borderRadius: 26, padding: 32, position: "relative", boxShadow: "var(--shadow-lg)" }}>
+        <button onClick={onClose} aria-label="Close" style={{ position: "absolute", top: 18, right: 18, width: 34, height: 34, borderRadius: 10, background: "var(--mint)", color: "var(--ink)", fontSize: 18, fontWeight: 700 }}>×</button>
+        <div className="wordmark" style={{ fontSize: "1.3rem", marginBottom: 4 }}>Investi<span className="play">Play</span></div>
+        <h3 style={{ fontSize: "1.6rem", fontWeight: 800, letterSpacing: "-.02em", margin: "8px 0 6px" }}>Request a demo</h3>
+        <p style={{ color: "rgba(6,41,31,.62)", margin: "0 0 22px", fontSize: ".98rem" }}>Email a founder directly and we'll set up your walkthrough.</p>
+        <div style={{ display: "grid", gap: 12 }}>
+          {founders.map((m) => (
+            <a key={m.email} href={`mailto:${m.email}`} className="demo-founder" style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 16px", borderRadius: 16, border: "1.5px solid var(--line)", background: "var(--white)", transition: "border-color .18s, transform .18s, box-shadow .18s" }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "var(--accent)"; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "var(--shadow-md)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--line)"; e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; }}>
+              <div style={{ flexShrink: 0, width: 42, height: 42, borderRadius: 12, background: "rgba(21,96,74,.10)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Icon name="users" size={20} color="var(--emerald)" />
               </div>
-              <button type="submit" className="btn btn-primary" style={{ width: "100%", justifyContent: "center", padding: "15px", marginTop: 18, fontSize: "1.02rem" }}>Request demo <Icon name="arrow" size={18} /></button>
-            </form>
-          </>
-        ) : (
-          <div style={{ textAlign: "center", padding: "20px 0 8px", animation: "pop .4s ease" }}>
-            <div style={{ width: 72, height: 72, borderRadius: "50%", background: "var(--leaf)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 18px" }}>
-              <Icon name="check" size={38} color="#042018" stroke={2.4} />
-            </div>
-            <h3 style={{ fontSize: "1.5rem", fontWeight: 800, margin: "0 0 8px" }}>You're on the list! 🎉</h3>
-            <p style={{ color: "rgba(6,41,31,.64)", margin: "0 0 22px", fontSize: "1rem", maxWidth: "30ch", marginInline: "auto" }}>Thanks for your interest in InvestiPlay. We'll be in touch shortly to schedule your walkthrough.</p>
-            <button onClick={onClose} className="btn btn-ghost" style={{ padding: "12px 26px" }}>Done</button>
-          </div>
-        )}
+              <div style={{ minWidth: 0 }}>
+                <div style={{ fontWeight: 800, fontSize: "1rem", color: "var(--ink)", lineHeight: 1.2 }}>{m.name}</div>
+                <div style={{ color: "var(--emerald-2)", fontWeight: 700, fontSize: ".9rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{m.email}</div>
+              </div>
+              <Icon name="arrow" size={18} color="rgba(6,41,31,.4)" />
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   );

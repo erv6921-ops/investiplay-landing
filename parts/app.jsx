@@ -36,7 +36,6 @@ function App() {
       <HowItWorks />
       <StockSim />
       <Curriculum />
-      <Stats />
       <Founders />
       <FinalCTA onDemo={openDemo} />
       <Footer onDemo={openDemo} />
