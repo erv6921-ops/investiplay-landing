@@ -176,14 +176,16 @@ function Curriculum() {
                 </div>
               );
             })}
-            {/* Jeff celebrates at the finish line — fills the lower-left void */}
-            {layout.w > 560 && layout.circles.length > 0 && (
-              <div className="zfinish" style={{ left: layout.w * 0.16, top: layout.circles[layout.circles.length - 1].y + 6 }}>
-                <Jeff uid="path" size={132} arm="point" look="up" expr="wow" />
-                <div className="zfinish-flag">
-                  <Icon name="check" size={13} color="#eafff5" stroke={2.6} />
-                  Full course complete
-                </div>
+            {/* Jeff cheering you on at Level 5 of the path */}
+            {layout.w > 560 && layout.circles.length >= 5 && (
+              <div style={{
+                position: "absolute",
+                left: layout.circles[4].x + (layout.circles[4].x < layout.w / 2 ? 100 : -100),
+                top: layout.circles[4].y,
+                transform: "translate(-50%, -50%)",
+                zIndex: 3, pointerEvents: "none",
+              }}>
+                <Jeff uid="path" size={120} arm="point" look="up" expr="happy" />
               </div>
             )}
           </div>
